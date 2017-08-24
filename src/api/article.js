@@ -18,6 +18,6 @@ export function getClassify(data) {
   return vueAxios({
     url: 'classes/Article',
     method: 'GET',
-    data: data
+    params: data
   });
 }

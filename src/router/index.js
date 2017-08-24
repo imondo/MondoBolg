@@ -5,6 +5,7 @@ const indexView = resolve => require(['../views/index/index'], resolve);
 const articleView = resolve => require(['../views/article/article'], resolve);
 const aboutView = resolve => require(['../views/about/about'], resolve);
 const classifyView = resolve => require(['../views/classify/classify'], resolve);
+const archiveView = resolve => require(['../views/archive/archive'], resolve);
 
 Vue.use(Router);
 
@@ -19,14 +20,19 @@ export const RouterMap = [
     component: indexView
   },
   {
-    path: '/article/:id',
-    name: 'article',
-    component: articleView
+    path: '/archive',
+    name: 'archive',
+    component: archiveView
   },
   {
     path: '/about',
     name: 'about',
     component: aboutView
+  },
+  {
+    path: '/article/:id',
+    name: 'article',
+    component: articleView
   },
   {
     path: '/classify/:class',

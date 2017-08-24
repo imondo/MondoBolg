@@ -6,9 +6,9 @@
           <router-link class="title" :to="{name:'classify', params:{class: article.classify}}">{{article.title}}</router-link>
         </h1>
         <p class="info">
-          <span>发布于{{article.createdAt | formatDate}}</span>
+          <span>发布于 {{article.createdAt | formatDate}}</span>
           <i>/</i>
-          <span>{{article.tag}}</span>
+          <span>{{article.classify}}</span>
         </p>
       </div>
       <div class="content" v-html="getContent"></div>

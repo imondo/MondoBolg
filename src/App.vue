@@ -19,15 +19,20 @@
     methods: {
       menu() {
         this.scroll = document.body.scrollTop;
-        if (this.scroll > 60) {
+        if (this.scroll > 20) {
           this.isScroll = true;
         } else {
           this.isScroll = false;
         }
+      },
+      aside() {
+        this.$store.commit('SET_ASIDE', true);
       }
     },
     mounted() {
       window.addEventListener('scroll', this.menu);
+      window.addEventListener('click', this.aside);
+//      window.addEventListener('touchstart', this.aside);
     },
     components: {
       'v-header': header

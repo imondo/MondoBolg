@@ -16,7 +16,7 @@
                   <router-link class="title" :to="{name:'article', params:{id: article.objectId}}">{{article.title}}</router-link>
                 </div>
                 <div class="item-meta">
-                  <div class="item-meta-icon"></div>
+                  <div class="item-meta-icon" :data-icon="article.classify"></div>
                   <div class="item-meta-cat">
                     <router-link class="title" :to="{name:'classify', params:{class: article.classify}}">{{article.classify}}</router-link>
                   </div>
@@ -151,8 +151,18 @@
             height: 42px;
             border: 1px solid #eeeeee;
             border-radius: 50px;
-            background: url("../../assets/17.jpg") no-repeat;
-            background-position: center;
+            background: url("../../assets/bg-ico.png") no-repeat;
+            background-size: 42px auto;
+            background-position: 0 0;
+            &[data-icon='生活'] {
+              background-position: 0 -127px;
+            }
+            &[data-icon='笔记'] {
+              background-position: 0 0;
+            }
+            &[data-icon='工作'] {
+              background-position: 0 -210px;
+            }
           }
           .item-meta-cat {
             a {
@@ -196,6 +206,7 @@
         getArtcileList(skip).then((response) => {
           if (response.status === CODE) {
             vm.articleList = response.data.results;
+            this.$store.commit('SET_LIST', vm.articleList);
             vm.count = response.data.count;
           }
         });
