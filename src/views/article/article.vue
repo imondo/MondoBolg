@@ -11,7 +11,7 @@
           <span>{{article.classify}}</span>
         </p>
       </div>
-      <div class="content" v-html="getContent"></div>
+      <div class="content" v-html="articleHtmlData"></div>
     </div>
   </div>
 </template>
@@ -62,19 +62,29 @@
         height: 1px;
       }
       blockquote{
-        border-left:3px solid green;
-        margin: 10px 0;
-        padding: 5px 10px;
-        background-color: #ccc;
+        padding: 20px;
+        margin-bottom: 25px;
+        background-color: #f7f7f7;
+        border-left: 6px solid #b4b4b4;
+        word-break: break-word!important;
+        word-break: break-all;
+        line-height: 30px;
+        p {
+          font-weight: 600;
+          line-height: 1.7;
+          font-size: 16px;
+        }
+      }
+      pre {
+        margin: 30px 0;
       }
       code {
         display: block;
+        width: 100%;
+        overflow-x: auto;
         padding: 10px;
-        border: 1px solid #cccccc;
         border-radius: 3px;
-        background: #f6f6f6;
-        color: #333333;
-        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        background-color: #F3F3F3;
       }
       h1, h2, h3, h4, h5 {
         margin: 20px 0;
@@ -85,6 +95,14 @@
 <script type='text/ecmascript-6'>
   import { getArtcile } from '../../api/article';
   import marked from 'marked';
+  import highlightjs from 'highlight.js';
+  // 配置marked
+  marked.setOptions({
+    // 配置高亮
+    highlight: function (code, lang, callback) {
+      return highlightjs.highlightAuto(code).value;   // 这里highlightjs会自动给代码增加类
+    }
+  });
   const CODE = 200;
   export default {
     data() {
@@ -94,7 +112,8 @@
           genre: null,
           tags: null,
           createdAt: ''
-        }
+        },
+        articleHtmlData: null
       };
     },
     created() {
@@ -102,6 +121,8 @@
       getArtcile(this.$route.params.id).then((response) => {
         if (response.status === CODE) {
           vm.article = response.data;
+          let htmlData = marked(vm.article.content);
+          this.articleHtmlData = htmlData;
         }
       });
     },

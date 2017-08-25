@@ -1,7 +1,6 @@
 export function dataConversion(data) {
   let arr = [];
   let obj = {};
-  let conversion = [];
   if (data instanceof Array) {
     for (var i = 0; i < data.length - 1; i++) {
        let date = data[i].updatedAt.substr(0, 7);
@@ -17,7 +16,6 @@ export function dataConversion(data) {
         obj[arr[j]].push(data[z]);
       }
     }
-    conversion.push(obj);
   }
-  return conversion;
+  return obj;
 }

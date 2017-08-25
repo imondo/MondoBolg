@@ -1,6 +1,6 @@
 <template>
     <div class="classify-wrapper list-wrapper">
-      <div class="common-title">分类 ：{{classIfy}}</div>
+      <div class="common-title"><span>{{classRoute}}</span> ：{{classIfy}}</div>
       <div class="post-lists">
         <ul>
           <li class="item" v-for="item in classList">
@@ -13,6 +13,7 @@
               </router-link>
           </li>
         </ul>
+        <h3 v-if="classList.length == 0">抱歉，还没有相关文章.</h3>
       </div>
     </div>
 </template>
@@ -104,24 +105,40 @@
   export default {
     data() {
       return {
+        classRoute: '',
         classIfy: '',
         classList: []
       };
     },
     created() {
-      const vm = this;
-      vm.classIfy = this.$route.params.class;
-      let obj = {
-        'classify': vm.classIfy
-      };
-      let params = {
-        where: obj
-      };
-      getClassify(params).then((response) => {
-        if (response.status === CODE) {
-          vm.classList = response.data.results;
+      this.setClass();
+    },
+    methods: {
+      setClass() {
+        let obj = {};
+        let params = {
+          where: obj
+        };
+        const vm = this;
+        vm.classIfy = this.$route.params.class;
+        vm.classRoute = this.$route.meta.className;
+        if (this.$route.meta.isSearch) {
+          obj['title'] = {'$regex': vm.classIfy, '$options': 'i'};
+        } else {
+          obj['classify'] = vm.classIfy;
         }
-      });
+        getClassify(params).then((response) => {
+          if (response.status === CODE) {
+            vm.classList = response.data.results;
+          }
+        });
+      }
+    },
+    watch: {
+      '$route': function () {
+        const vm = this;
+        vm.setClass();
+      }
     }
   };
 </script>

@@ -4,7 +4,8 @@
         <div class="post-list-body clearfix">
           <div class="post-list-item" v-for="article in articleList">
             <div class="post-list-item-container">
-              <div class="item-thumb" :style="{'background-image': 'url('+article.picture.url+')'}"></div>
+              <div class="item-thumb" v-if="article.picture!=undefined" :style="{'background-image': 'url('+ article.picture.url +')'}"></div>
+              <div class="item-thumb" v-else></div>
               <router-link :to="{name:'article', params:{id: article.objectId}}">
                 <div class="item-desc" v-html="markedContent(article.content)"></div>
                 <div class="bg-deepgrey"></div>

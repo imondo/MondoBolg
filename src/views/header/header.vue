@@ -1,16 +1,21 @@
 <template>
-  <div class="header-wrapper">
+  <div class="header-wrapper" :class="{headerAside:!conditionState.aside}">
     <div class="nav">
-      <router-link to="/index" class="log">Mondo</router-link>
+      <router-link :to="{ path: '/index'}" replace class="log">Mondo</router-link>
       <div class="nav-right">
         <div class="right-item">
           <router-link to="/archive" class="item">归档</router-link>
           <router-link to="/about" class="item">关于</router-link>
+          <div class="item search-pc">
+            <span class="icon-contaner">
+              <Icon type="android-search"></Icon>
+            </span>
+            <span class="item-pc-input">
+              <input type="text" placeholder="搜索..." v-model="searchParams" @keyup.enter="searchSubmit">
+            </span>
+          </div>
         </div>
         <div class="item-icon">
-          <span class="icon-contaner">
-            <Icon type="android-search"></Icon>
-          </span>
           <span class="icon-contaner" @click.stop="open">
             <Icon :type="conditionState.aside?'android-menu':'android-close'" class="motion" :class="{close:!conditionState.aside}"></Icon>
           </span>
@@ -18,6 +23,12 @@
         <div class="icon-item" :class="{hidden: conditionState.aside}">
           <router-link to="/archive" class="item">归档</router-link>
           <router-link to="/about" class="item">关于</router-link>
+          <p class="item">
+            <input type="text" class="item-mobile-input" placeholder="搜索..." v-model="searchParams" @keyup.enter="searchSubmit">
+            <span class="icon-contaner">
+              <Icon type="android-search"></Icon>
+            </span>
+          </p>
         </div>
       </div>
     </div>
@@ -37,7 +48,17 @@
     animation-duration: .5s;
     -webkit-animation-fill-mode: both;
     animation-fill-mode: both;
+    transition: all .4s linear;
+    -moz-transition: all .4s linear;
+    -webkit-transition: all .4s linear;
+    -o-transition: all .4s linear;
+    &.headerAside {
+      position: absolute;
+      height: 100%;
+      background-color: #eeeeee;
+    }
     .nav {
+      position: relative;
       margin: 0 auto;
       width: 1024px;
       max-width: 100%;
@@ -52,13 +73,57 @@
       }
       .nav-right {
         float: right;
+        .right-item {
+          .item {
+            .icon-contaner {
+              position: absolute;
+              right: 0;
+              top: 0;
+              padding-right: 25px;
+              z-index: 2;
+              font-size: 18px;
+              cursor: pointer;
+            }
+            .item-pc-input {
+              position: absolute;
+              right: 15px;
+              top: 21px;
+              display: inline-block;
+              height: 30px;
+              width: 400px;
+              border: none;
+              opacity: 0;
+              z-index: -1;
+              &:hover {
+                z-index: 1;
+              }
+              input {
+                position: absolute;
+                padding: 0 40px 0 18px;
+                width: 100%;
+                height: 30px;
+                border: 1px solid #00a0e8;
+                border-radius: 15px;
+              }
+            }
+          }
+        }
         .item {
           display: inline-block;
-          padding-right: 15px;
+          padding-right: 25px;
           color: #686d76;
           font-size: 14px;
           &:hover {
             color: #0a90ff;
+          }
+          &.search-pc {
+            padding-left: 9px;
+            &:hover {
+              .item-pc-input {
+                opacity: 1;
+                z-index: 1;
+              }
+            }
           }
         }
         .item-icon {
@@ -72,44 +137,57 @@
               margin-right: 25px;
             }
             .motion {
-              transition: all .4s;
-              -moz-transition: all .4s;
-              -webkit-transition: all .4s;
-              -o-transition: all .4s;
+              transition: all .4s linear;
+              -moz-transition: all .4s linear;
+              -webkit-transition: all .4s linear;
+              -o-transition: all .4s linear;
             }
             .close {
               color: red;
-              transform:rotate(360deg);
-              -ms-transform:rotate(360deg); /* Internet Explorer */
-              -moz-transform:rotate(360deg); /* Firefox */
-              -webkit-transform:rotate(360deg); /* Safari 和 Chrome */
-              -o-transform:rotate(360deg); /* Opera */
+              transform:rotate(180deg);
+              -ms-transform:rotate(180deg); /* Internet Explorer */
+              -moz-transform:rotate(180deg); /* Firefox */
+              -webkit-transform:rotate(180deg); /* Safari 和 Chrome */
+              -o-transform:rotate(180deg); /* Opera */
             }
           }
         }
         .icon-item {
           position: absolute;
           z-index: 2;
-          right: 6px;
-          top: 65px;
-          background-color: #FFFFFF;
-          border: 1px solid #eeeeee;
-          box-shadow: 0 1px 5px rgba(0, 0, 0 ,0.5);
-          transition: all .7s;
-          -moz-transition: all .7s;
-          -webkit-transition: all .7s;
-          -o-transition: all .7s;
-          transform: translate(-5px,0);
+          right: 0;
+          top: 70px;
+          width: 100%;
+          background-color: #eeeeee;
+          transition: all .4s linear;
+          -moz-transition: all .4s linear;
+          -webkit-transition: all .4s linear;
+          -o-transition: all .4s linear;
+          transform: scale3d(1,1,1);
           &.hidden {
-            transform: translate(85px,0);
+            transform: scale3d(1,0,1);
+            background-color: #FFFFFF;
           }
           .item {
             display: block;
-            padding: 10px;
-            line-height: 14px;
-            text-align: center;
-            &:not(:last-child) {
-              border-bottom: 1px solid #eeeeee;
+            width: 80%;
+            margin: 0 auto;
+            padding: 10px 0;
+            line-height: initial;
+            border-bottom: 1px solid #cccccc;
+            &:last-child {
+              border-bottom-color: #cccccc;
+            }
+            .icon-contaner {
+              float: left;
+              padding: 0 12px 0 9px;
+              font-size: 18px;
+            }
+            .item-mobile-input {
+              border: none;
+              width: 85%;
+              height: 23px;
+              background-color: #eeeeee;
             }
           }
         }
@@ -121,6 +199,11 @@
 <script type='text/ecmascript-6'>
   import { mapGetters } from 'vuex';
   export default {
+    data() {
+      return {
+        searchParams: ''
+      };
+    },
     computed: {
       ...mapGetters([
         'conditionState'
@@ -130,6 +213,10 @@
       open() {
         this.conditionState.aside = !this.conditionState.aside;
         this.$store.commit('SET_ASIDE', this.conditionState.aside);
+      },
+      searchSubmit() {
+        this.$router.push({name: 'search', params: { class: this.searchParams }});
+        this.searchParams = '';
       }
     }
   };

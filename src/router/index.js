@@ -37,7 +37,14 @@ export const RouterMap = [
   {
     path: '/classify/:class',
     name: 'classify',
-    component: classifyView
+    component: classifyView,
+    meta: {className: '分类'}
+  },
+  {
+    path: '/search/:class',
+    name: 'search',
+    component: classifyView,
+    meta: {isSearch: true, className: '搜索'}
   }
 ];
 

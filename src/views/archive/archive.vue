@@ -1,22 +1,19 @@
 <template>
   <div class="archive-wrapper list-wrapper">
-    <div v-for="(article, index) in articleList">
-      <div v-for="(val, key) in article">
-        <div class="common-title">分类 ：{{key | timeConversion}}</div>
-        <div class="post-lists">
-          <ul>
-            <li class="item" v-for="item in val">
-              <router-link class="item-body" :to="{name:'article', params:{id: item.objectId}}">
-                <p class="item-title">{{item.title}}</p>
-                <p class="item-meta">
-                  <span class="item-meta-desc">发布于 <time>{{item.createdAt | formatDate}}</time></span>
-                </p>
-              </router-link>
-            </li>
-          </ul>
-        </div>
+    <div v-for="(val, key) in articleList">
+      <div class="common-title">{{key | timeConversion}}</div>
+      <div class="post-lists">
+        <ul>
+          <li class="item" v-for="item in val">
+            <router-link class="item-body" :to="{name:'article', params:{id: item.objectId}}">
+              <p class="item-title">{{item.title}}</p>
+              <p class="item-meta">
+                <span class="item-meta-desc">发布于 <time>{{item.createdAt | formatDate}}</time></span>
+              </p>
+            </router-link>
+          </li>
+        </ul>
       </div>
-
     </div>
   </div>
 </template>

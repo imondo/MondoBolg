@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-    <v-header :class="{slideDown:!isScroll,slideUp:isScroll}"></v-header>
-    <div class="main-wrapper clearfix">
+    <v-header :class="{slideDown:!isScroll,slideUp:isScroll}" @click="aside"></v-header>
+    <div class="main-wrapper clearfix" :class="{mainAside: !conditionState.aside}">
       <router-view></router-view>
     </div>
   </div>
@@ -9,12 +9,18 @@
 
 <script>
   import header from './views/header/header';
+  import { mapGetters } from 'vuex';
   export default {
     data() {
       return {
         isScroll: false,
         scroll: ''
       };
+    },
+    computed: {
+      ...mapGetters([
+        'conditionState'
+      ])
     },
     methods: {
       menu() {
@@ -31,7 +37,7 @@
     },
     mounted() {
       window.addEventListener('scroll', this.menu);
-      window.addEventListener('click', this.aside);
+//      window.addEventListener('click', this.aside);
 //      window.addEventListener('touchstart', this.aside);
     },
     components: {
@@ -56,6 +62,9 @@
     animation-direction: initial;
     animation-fill-mode: initial;
     animation-play-state: initial;
+    &.mainAside {
+      display: none;
+    }
   }
   .slideDown {
     animation-name: slideDown;
