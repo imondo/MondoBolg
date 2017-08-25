@@ -83,16 +83,17 @@
         articleList: null
       };
     },
-    created() {
-      const vm = this;
-      let params = {
-        'order': '-updatedAt'
-      };
-      getClassify(params).then((response) => {
-        if (response.status === CODE) {
-          vm.list = response.data.results;
-          vm.articleList = dataConversion(vm.list);
-        }
+    beforeRouteEnter(to, from, next) {
+      next(vm => {
+        let params = {
+          'order': '-updatedAt'
+        };
+        getClassify(params).then((response) => {
+          if (response.status === CODE) {
+            vm.list = response.data.results;
+            vm.articleList = dataConversion(vm.list);
+          }
+        });
       });
     }
   };

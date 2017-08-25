@@ -2,7 +2,9 @@
   <div id="app">
     <v-header :class="{slideDown:!isScroll,slideUp:isScroll}" @click="aside"></v-header>
     <div class="main-wrapper clearfix" :class="{mainAside: !conditionState.aside}">
-      <router-view></router-view>
+      <transition :name="transitionName">
+        <router-view></router-view>
+      </transition>
     </div>
   </div>
 </template>
@@ -14,7 +16,8 @@
     data() {
       return {
         isScroll: false,
-        scroll: ''
+        scroll: '',
+        transitionName: ''
       };
     },
     computed: {
@@ -37,8 +40,13 @@
     },
     mounted() {
       window.addEventListener('scroll', this.menu);
-//      window.addEventListener('click', this.aside);
-//      window.addEventListener('touchstart', this.aside);
+    },
+    watch: {
+      '$route' (to, from) {
+        const toDepth = to.path.split('/').length;
+        const fromDepth = from.path.split('/').length;
+        this.transitionName = toDepth < fromDepth ? 'fade-in' : 'fade-out';
+      }
     },
     components: {
       'v-header': header
@@ -52,16 +60,9 @@
     position: relative;
     padding: 90px 20px 0;
     max-width: 940px;
+    min-height: 100%;
     margin: 0 auto;
     overflow: hidden;
-    animation-name: fade-in;
-    animation-duration: .5s;
-    animation-timing-function: initial;
-    animation-delay: initial;
-    animation-iteration-count: initial;
-    animation-direction: initial;
-    animation-fill-mode: initial;
-    animation-play-state: initial;
     &.mainAside {
       display: none;
     }

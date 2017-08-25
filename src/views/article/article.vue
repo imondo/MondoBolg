@@ -1,18 +1,16 @@
 <template>
-  <div>
-    <div class="article-wrapper">
-      <div class="article-info">
-        <h1>
-          <router-link class="title" :to="{name:'classify', params:{class: article.classify}}">{{article.title}}</router-link>
-        </h1>
-        <p class="info">
-          <span>发布于 {{article.createdAt | formatDate}}</span>
-          <i>/</i>
-          <span>{{article.classify}}</span>
-        </p>
-      </div>
-      <div class="content" v-html="articleHtmlData"></div>
+  <div class="article-wrapper" id="article-wrapper">
+    <div class="article-info">
+      <h1>
+        <router-link class="title" :to="{name:'classify', params:{class: article.classify}}" v-cloak>{{article.title}}</router-link>
+      </h1>
+      <p class="info">
+        <span v-cloak>发布于 {{article.createdAt | formatDate}}</span>
+        <i>/</i>
+        <span v-cloak>{{article.classify}}</span>
+      </p>
     </div>
+    <div class="content" v-html="articleHtmlData" v-cloak></div>
   </div>
 </template>
 <style lang="less" rel="stylesheet/less">
@@ -94,15 +92,7 @@
 </style>
 <script type='text/ecmascript-6'>
   import { getArtcile } from '../../api/article';
-  import marked from 'marked';
-  import highlightjs from 'highlight.js';
-  // 配置marked
-  marked.setOptions({
-    // 配置高亮
-    highlight: function (code, lang, callback) {
-      return highlightjs.highlightAuto(code).value;   // 这里highlightjs会自动给代码增加类
-    }
-  });
+  import marked from '../../utils/marked';
   const CODE = 200;
   export default {
     data() {
@@ -116,27 +106,17 @@
         articleHtmlData: null
       };
     },
-    created() {
-      const vm = this;
-      getArtcile(this.$route.params.id).then((response) => {
+    beforeRouteEnter(to, from, next) {
+      console.log(document.getElementById('article-wrapper'));
+      getArtcile(to.params.id).then((response) => {
         if (response.status === CODE) {
-          vm.article = response.data;
-          let htmlData = marked(vm.article.content);
-          this.articleHtmlData = htmlData;
+          next(vm => {
+            vm.article = response.data;
+            let htmlData = marked(vm.article.content);
+            vm.articleHtmlData = htmlData;
+          });
         }
       });
-    },
-    computed: {
-      getContent() {
-        const vm = this;
-        let _content = vm.article.content;
-        marked(_content, function (err, content) {
-          if (!err) {
-            _content = content;
-          }
-        });
-        return _content;
-      }
     }
   };
 </script>

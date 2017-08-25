@@ -110,8 +110,10 @@
         classList: []
       };
     },
-    created() {
-      this.setClass();
+    beforeRouteEnter(to, from, next) {
+      next(vm => {
+        vm.setClass();
+      });
     },
     methods: {
       setClass() {

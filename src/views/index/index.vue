@@ -4,7 +4,7 @@
         <div class="post-list-body clearfix">
           <div class="post-list-item" v-for="article in articleList">
             <div class="post-list-item-container">
-              <div class="item-thumb" v-if="article.picture!=undefined" :style="{'background-image': 'url('+ article.picture.url +')'}"></div>
+              <div class="item-thumb" v-if="article.picture!=undefined" :style="{'background-image': 'url('+ article.picture.url +')'}" v-cloak></div>
               <div class="item-thumb" v-else></div>
               <router-link :to="{name:'article', params:{id: article.objectId}}">
                 <div class="item-desc" v-html="markedContent(article.content)"></div>
@@ -189,17 +189,16 @@
   import marked from 'marked';
   const CODE = 200;
   export default {
-    props: {
-      isB: true
-    },
     data() {
       return {
         articleList: [],
         count: 0
       };
     },
-    created() {
-      this.getList(0);
+    beforeRouteEnter(to, from, next) {
+      next(vm => {
+        vm.getList(0);
+      });
     },
     methods: {
       getList(skip) {
@@ -213,16 +212,13 @@
         });
       },
       markedContent(value) {
-        let _content = value;
-        marked(_content, function (err, content) {
-          if (!err) {
-            _content = content;
+        value = marked(value);
+        if (value.indexOf('<hr>') > -1) {
+          if (value.length > 50) {
+            value = value.substr(4, 50) + '...';
           }
-        });
-        if (_content.indexOf('<hr>') > -1) {
-            _content = _content.substr(4, 100);
         }
-        return _content;
+        return value;
       },
       setArticle(index) {
           let skip = index * 6;

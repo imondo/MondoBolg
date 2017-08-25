@@ -22,8 +22,8 @@ Object.keys(filters).forEach(key => {
 });
 
 router.beforeEach((to, from, next) => {
-  store.commit('SET_ASIDE', true);
   NProgress.start();
+  store.commit('SET_ASIDE', true);
   next();
 });
 
