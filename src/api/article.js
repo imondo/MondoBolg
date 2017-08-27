@@ -21,3 +21,12 @@ export function getClassify(data) {
     params: data
   });
 }
+
+// 新增文章
+export function addArticle(data) {
+  return vueAxios({
+    url: 'classes/Article',
+    method: 'POST',
+    data: data
+  });
+}

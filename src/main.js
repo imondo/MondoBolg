@@ -7,6 +7,7 @@ import 'iview/dist/styles/iview.css';
 import NProgress from 'nprogress';
 import 'nprogress/nprogress.css';
 import 'highlight.js/styles/tomorrow.css';
+import './styles/index.less';
 import router from './router/index';
 import store from './store/index';
 import * as filters from './filters/index';

@@ -92,7 +92,7 @@
               var user = JSON.parse(JSON.stringify(res));
               store.dispatch('SetToken', res._sessionToken).then(() => {
                 store.dispatch('GetUser', user).then(() => {
-                  this.$router.push({path: 'manage'});
+                  this.$router.push({path: 'admin'});
                 });
               });
             }).catch((err) => {

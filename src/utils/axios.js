@@ -1,8 +1,8 @@
 import axios from 'axios';
 
 const vueAxios = axios.create({
-  baseURL: 'https://leancloud.cn/1.1/',
-  timeout: 5000
+  baseURL: 'https://leancloud.cn/1.1/'
+  // timeout: 5000
 });
 
 // 请求拦截器

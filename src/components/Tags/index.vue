@@ -51,11 +51,11 @@
                if (inputValue) {
                    this.dynamicTags.push(inputValue);
                }
-               this.$store.commit("SET_TAGS",this.dynamicTags);
+               this.$store.commit('SET_TAGS', this.dynamicTags);
                this.inputVisible = false;
                this.inputValue = '';
            }
        }
-   }
+   };
 
 </script>

@@ -55,12 +55,11 @@
 </script>
 
 <style  lang="less" rel="stylesheet/less">
-  @import "styles/base";
   .main-wrapper {
     position: relative;
     padding: 90px 20px 0;
     max-width: 940px;
-    min-height: 100%;
+    height: 100%;
     margin: 0 auto;
     overflow: hidden;
     &.mainAside {
@@ -73,5 +72,4 @@
   .slideUp {
     animation-name: slideUp;
   }
-  @import "styles/media";
 </style>

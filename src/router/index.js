@@ -12,7 +12,7 @@ const archiveView = resolve => require(['../views/archive/archive'], resolve);
 const loginView = resolve => require(['../views/Login/login'], resolve);
 const LayoutView = resolve => require(['../views/admin/layout/Layout'], resolve);
 // const articleListView = resolve => require(['../views/admin/manageView/article'], resolve);
-// const editView = resolve => require(['../views/admin/manageView/edit'], resolve);
+const editView = resolve => require(['../views/admin/manageView/edit'], resolve);
 
 Vue.use(Router);
 
@@ -62,9 +62,10 @@ export const RouterMap = [
     path: '/admin',
     name: 'admin',
     component: LayoutView,
+    redirect: '/admin/edit',
     children: [
       // { path: 'articleList', component: articleListView},
-      // { path: 'edit', component: editView},
+      {path: 'edit', component: editView}
     ]
   }
 ];

@@ -61,24 +61,24 @@
 </style>
 <script type='text/ecmascript-6'>
     import marked from 'marked';
-    import { addArticle } from 'api/article';
-    import Tag from 'components/Tags/index';
+    import { addArticle } from '../../../api/article';
+    import Tag from '../../../components/Tags/index';
     const CODE = 201;
     export default {
         name: 'edit',
         data() {
             return {
                 formData: {
-                    title: "",
-                    classify: "",
-                    tag:""
+                    title: '',
+                    classify: '',
+                    tag: ''
                 },
-                input: "",
+                input: ''
             };
         },
         computed: {
             compiledMarkdown: function () {
-                return marked(this.input, {sanitize: true})
+                return marked(this.input, {sanitize: true});
             }
         },
         methods: {
@@ -95,7 +95,7 @@
                 });
             },
             onSubmit: function () {
-                if (this.title == "" || this.input == "") {
+                if (this.title === '' || this.input === '') {
                     this.$message({
                         message: '请填写完整!',
                         type: 'warning'
@@ -107,11 +107,10 @@
                     params.tags = this.$store.getters.articleList.tags;
                     this.save(params);
                 }
-
             }
         },
         components: {
             'Tag': Tag
         }
-    }
+    };
 </script>
