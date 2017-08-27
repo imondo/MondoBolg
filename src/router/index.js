@@ -7,6 +7,13 @@ const aboutView = resolve => require(['../views/about/about'], resolve);
 const classifyView = resolve => require(['../views/classify/classify'], resolve);
 const archiveView = resolve => require(['../views/archive/archive'], resolve);
 
+// admin
+
+const loginView = resolve => require(['../views/Login/login'], resolve);
+const LayoutView = resolve => require(['../views/admin/layout/Layout'], resolve);
+// const articleListView = resolve => require(['../views/admin/manageView/article'], resolve);
+// const editView = resolve => require(['../views/admin/manageView/edit'], resolve);
+
 Vue.use(Router);
 
 export const RouterMap = [
@@ -18,6 +25,11 @@ export const RouterMap = [
     path: '/index',
     name: 'index',
     component: indexView
+  },
+  {
+    path: '/login',
+    name: 'login',
+    component: loginView
   },
   {
     path: '/archive',
@@ -45,6 +57,15 @@ export const RouterMap = [
     name: 'search',
     component: classifyView,
     meta: {isSearch: true, className: '搜索'}
+  },
+  {
+    path: '/admin',
+    name: 'admin',
+    component: LayoutView,
+    children: [
+      // { path: 'articleList', component: articleListView},
+      // { path: 'edit', component: editView},
+    ]
   }
 ];
 

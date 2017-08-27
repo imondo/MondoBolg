@@ -4,6 +4,7 @@
       <router-link :to="{ path: '/index'}" replace class="log">Mondo</router-link>
       <div class="nav-right">
         <div class="right-item">
+          <router-link to="/login" class="item">登录</router-link>
           <router-link to="/archive" class="item">归档</router-link>
           <router-link to="/about" class="item">关于</router-link>
           <div class="item search-pc">

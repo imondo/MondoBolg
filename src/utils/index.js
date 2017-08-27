@@ -1,3 +1,27 @@
+import Vue from 'vue';
+
+export function conversionData(data) {
+  return JSON.parse(JSON.stringify(data));
+}
+
+export function errorMessage(msg) {
+  return Vue.prototype.$message({
+    message: msg,
+    type: 'error',
+    duration: 2 * 1000
+  });
+}
+
+export function confirmMessage(content, title, type, callback) {
+  let headline = title || '提示';
+  let types = type || 'warning';
+  return Vue.prototype.$confirm(content, headline, {
+    confirmButtonText: '确定',
+    cancelButtonText: '取消',
+    type: types
+  });
+}
+
 export function dataConversion(data) {
   let arr = [];
   let obj = {};

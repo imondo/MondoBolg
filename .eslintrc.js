@@ -13,7 +13,8 @@ module.exports = {
   extends: 'standard',
   // required to lint *.vue files
   plugins: [
-    'html'
+    'html',
+    "promise"
   ],
   // add your custom rules here
   'rules': {
@@ -33,5 +34,6 @@ module.exports = {
       // 参数不检查
       "args": "none"
     }],
+    "promise/param-names": "off",
   }
 }
