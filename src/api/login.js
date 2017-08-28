@@ -1,4 +1,4 @@
-import vueAxios from '../utils/axios';
+import vueAxios from 'utils/axios';
 import AV from 'leancloud-storage';
 
 // 登录

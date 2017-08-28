@@ -184,8 +184,8 @@
 
 </style>
 <script type='text/ecmascript-6'>
-  import pagination from '../../components/Pagination/pagination';
-  import { getArtcileList } from '../../api/article';
+  import pagination from 'components/Pagination/pagination';
+  import { getArtcileList } from 'api/article';
   import marked from 'marked';
   const CODE = 200;
   export default {

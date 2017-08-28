@@ -10,7 +10,7 @@
 </template>
 
 <script>
-  import header from './views/header/header';
+  import header from 'views/header/header';
   import { mapGetters } from 'vuex';
   export default {
     data() {

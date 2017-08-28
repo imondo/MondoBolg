@@ -74,8 +74,8 @@
   }
 </style>
 <script type='text/ecmascript-6'>
-  import { getClassify } from '../../api/article';
-  import { dataConversion } from '../../utils/index';
+  import { getClassify } from 'api/article';
+  import { dataConversion } from 'utils/index';
   const CODE = 200;
   export default {
     data() {

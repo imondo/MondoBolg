@@ -1,4 +1,4 @@
-import vueAxios from '../utils/axios';
+import vueAxios from 'utils/axios';
 
 export function getArtcileList(skip) {
   return vueAxios({

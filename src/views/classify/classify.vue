@@ -100,7 +100,7 @@
   }
 </style>
 <script type='text/ecmascript-6'>
-  import { getClassify } from '../../api/article';
+  import { getClassify } from 'api/article';
   const CODE = 200;
   export default {
     data() {

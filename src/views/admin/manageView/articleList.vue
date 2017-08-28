@@ -92,7 +92,7 @@
 </style>
 <script type='text/ecmascript-6'>
   import { mapGetters } from 'vuex';
-  import { getArtcileList } from '../../../api/article';
+  import { getArtcileList } from 'api/article';
   import marked from 'marked';
   const CODE = 200;
   export default {
@@ -124,7 +124,7 @@
       markedContent(value) {
         value = marked(value);
         if (value.indexOf('<hr>') > -1) {
-          if (value.length > 50) {
+          if (value.length > 100) {
             value = value.substr(4, 100) + '...';
           }
         }

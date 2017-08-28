@@ -91,8 +91,8 @@
   }
 </style>
 <script type='text/ecmascript-6'>
-  import { getArtcile } from '../../api/article';
-  import marked from '../../utils/marked';
+  import { getArtcile } from 'api/article';
+  import marked from 'utils/marked';
   const CODE = 200;
   export default {
     data() {

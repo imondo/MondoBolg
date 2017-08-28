@@ -1,18 +1,18 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 
-const indexView = resolve => require(['../views/index/index'], resolve);
-const articleView = resolve => require(['../views/article/article'], resolve);
-const aboutView = resolve => require(['../views/about/about'], resolve);
-const classifyView = resolve => require(['../views/classify/classify'], resolve);
-const archiveView = resolve => require(['../views/archive/archive'], resolve);
+const indexView = resolve => require(['views/index/index'], resolve);
+const articleView = resolve => require(['views/article/article'], resolve);
+const aboutView = resolve => require(['views/about/about'], resolve);
+const classifyView = resolve => require(['views/classify/classify'], resolve);
+const archiveView = resolve => require(['views/archive/archive'], resolve);
 
 // admin
 
-const loginView = resolve => require(['../views/Login/login'], resolve);
-const LayoutView = resolve => require(['../views/admin/layout/layout'], resolve);
-const articleListView = resolve => require(['../views/admin/manageView/articleList'], resolve);
-const editView = resolve => require(['../views/admin/manageView/edit'], resolve);
+const loginView = resolve => require(['views/Login/login'], resolve);
+const LayoutView = resolve => require(['views/admin/layout/layout'], resolve);
+const articleListView = resolve => require(['views/admin/manageView/articleList'], resolve);
+const editView = resolve => require(['views/admin/manageView/edit'], resolve);
 
 Vue.use(Router);
 

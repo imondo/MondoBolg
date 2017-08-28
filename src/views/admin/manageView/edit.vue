@@ -71,8 +71,8 @@
 </style>
 <script type='text/ecmascript-6'>
   import marked from 'marked';
-  import { addArticle } from '../../../api/article';
-  import Tag from '../../../components/Tags/index';
+  import { addArticle } from 'api/article';
+  import Tag from 'components/Tags/index';
   const CODE = 201;
   export default {
     name: 'edit',

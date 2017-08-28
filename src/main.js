@@ -7,14 +7,14 @@ import 'iview/dist/styles/iview.css';
 import NProgress from 'nprogress';
 import 'nprogress/nprogress.css';
 import 'highlight.js/styles/tomorrow.css';
-import './styles/index.less';
-import router from './router/index';
-import store from './store/index';
-import * as filters from './filters/index';
+import 'styles/index.less';
+import router from 'router/index';
+import store from 'store/index';
+import * as filters from 'filters/index';
 import touch from 'vue-directive-touch';
-import { getToken } from './utils/auth';
-import { currentUser } from './api/login';
-import { retrieval } from './utils/index';
+import { getToken } from 'utils/auth';
+import { currentUser } from 'api/login';
+import { retrieval } from 'utils/index';
 import {
   MessageBox,
   Message,

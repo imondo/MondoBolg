@@ -42,9 +42,9 @@
   }
 </style>
 <script type='text/ecmascript-6'>
-  import { login } from '../../api/login';
-  import { isUserName } from '../../utils/validate';
-  import store from '../../store/index';
+  import { login } from 'api/login';
+  import { isUserName } from 'utils/validate';
+  import store from 'store/index';
   export default {
     name: 'login',
     data() {
