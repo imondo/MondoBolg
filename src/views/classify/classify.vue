@@ -13,7 +13,7 @@
               </router-link>
           </li>
         </ul>
-        <h3 v-if="classList.length == 0">抱歉，还没有相关文章.</h3>
+        <h3 v-if="isSearch && classList.length == 0">抱歉，还没有相关文章.</h3>
       </div>
     </div>
 </template>
@@ -107,7 +107,8 @@
       return {
         classRoute: '',
         classIfy: '',
-        classList: []
+        classList: [],
+        isSearch: false
       };
     },
     beforeRouteEnter(to, from, next) {
@@ -122,6 +123,7 @@
           where: obj
         };
         const vm = this;
+        vm.isSearch = this.$route.meta.isSearch;
         vm.classIfy = this.$route.params.class;
         vm.classRoute = this.$route.meta.className;
         if (this.$route.meta.isSearch) {

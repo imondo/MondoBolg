@@ -4,7 +4,20 @@
       <router-link :to="{ path: '/index'}" replace class="log">Mondo</router-link>
       <div class="nav-right">
         <div class="right-item">
-          <router-link to="/login" class="item">登录</router-link>
+          <el-dropdown class="item user" v-if="userInfo">
+            <span class="el-dropdown-link">
+              {{userInfo.username}}<i class="el-icon-caret-bottom el-icon--right"></i>
+            </span>
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item>
+                <router-link to="/admin/user" class="item">我的主页</router-link>
+              </el-dropdown-item>
+              <el-dropdown-item>
+                <router-link to="/logout" class="item">退出</router-link>
+              </el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
+          <router-link to="/admin" class="item">写文章</router-link>
           <router-link to="/archive" class="item">归档</router-link>
           <router-link to="/about" class="item">关于</router-link>
           <div class="item search-pc">
@@ -192,6 +205,9 @@
             }
           }
         }
+        .user {
+          cursor: pointer;
+        }
       }
     }
   }
@@ -202,12 +218,14 @@
   export default {
     data() {
       return {
-        searchParams: ''
+        searchParams: '',
+        isLogin: false
       };
     },
     computed: {
       ...mapGetters([
-        'conditionState'
+        'conditionState',
+        'userInfo'
       ])
     },
     methods: {

@@ -11,5 +11,5 @@
    export default {
        name: 'uploadDialog',
        props:['dialogVisible']
-   }
+   };
 </script>

@@ -4,6 +4,10 @@ export function conversionData(data) {
   return JSON.parse(JSON.stringify(data));
 }
 
+export function retrieval(str, val) {
+  return str.indexOf(val);
+}
+
 export function errorMessage(msg) {
   return Vue.prototype.$message({
     message: msg,

@@ -26,19 +26,19 @@
     top:50%;
     margin:-190px 0 0 -230px;
     padding: 10px;
-    .login {
-      border-radius: 5px;
-      -moz-border-radius: 5px;
-      background-clip: padding-box;
-      width: 350px;
-      padding: 35px 35px 15px;
-      background: #fff;
-      border: 1px solid #eaeaea;
-      box-shadow: 0 0 25px #cac6c6;
-      h3 {
-        text-align: center;
-      }
-    }
+  .login {
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    background-clip: padding-box;
+    width: 350px;
+    padding: 35px 35px 15px;
+    background: #fff;
+    border: 1px solid #eaeaea;
+    box-shadow: 0 0 25px #cac6c6;
+  h3 {
+    text-align: center;
+  }
+  }
   }
 </style>
 <script type='text/ecmascript-6'>
@@ -89,8 +89,8 @@
         this.$refs[formName].validate((valid) => {
           if (valid) {
             Fn(this.loginForm.username, this.loginForm.password).then((res) => {
-              var user = JSON.parse(JSON.stringify(res));
-              store.dispatch('SetToken', res._sessionToken).then(() => {
+              var user = JSON.parse(JSON.stringify(res)).data;
+              store.dispatch('SetToken', user.sessionToken).then(() => {
                 store.dispatch('GetUser', user).then(() => {
                   this.$router.push({path: 'admin'});
                 });

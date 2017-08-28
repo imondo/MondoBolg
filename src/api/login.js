@@ -16,3 +16,11 @@ export function login(user, psd) {
 export function loginOut() {
   return AV.User.logOut();
 }
+
+// 是否为当前用户
+export function currentUser() {
+  return vueAxios({
+    url: '/users/me',
+    method: 'GET'
+  });
+}

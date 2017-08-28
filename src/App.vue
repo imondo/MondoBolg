@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <v-header :class="{slideDown:!isScroll,slideUp:isScroll}" @click="aside"></v-header>
-    <div class="main-wrapper clearfix" :class="{mainAside: !conditionState.aside}">
+    <div class="main-wrapper clearfix" :class="{mainAside: !conditionState.aside, mainAdit: isEdit, mainUser: isUser}">
       <transition :name="transitionName">
         <router-view></router-view>
       </transition>
@@ -17,7 +17,9 @@
       return {
         isScroll: false,
         scroll: '',
-        transitionName: ''
+        transitionName: '',
+        isEdit: false,
+        isUser: false
       };
     },
     computed: {
@@ -46,6 +48,16 @@
         const toDepth = to.path.split('/').length;
         const fromDepth = from.path.split('/').length;
         this.transitionName = toDepth < fromDepth ? 'fade-in' : 'fade-out';
+        if (to.path.indexOf('/edit') > -1) {
+          this.isEdit = true;
+        } else {
+          this.isEdit = false;
+        }
+        if (to.path.indexOf('/user') > -1) {
+          this.isUser = true;
+        } else {
+          this.isUser = false;
+        }
       }
     },
     components: {
@@ -64,6 +76,14 @@
     overflow: hidden;
     &.mainAside {
       display: none;
+    }
+    &.mainAdit {
+      max-width: 100%;
+      padding-top: 73px;
+    }
+    &.mainUser {
+      height: auto;
+      overflow-y: auto;
     }
   }
   .slideDown {

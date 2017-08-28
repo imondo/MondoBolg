@@ -37,11 +37,11 @@
         },
         methods: {
             handleSizeChange(val) {
-                this.$emit("handleSizeChange",val);
+                this.$emit('handleSizeChange', val);
             },
             handleCurrentChange(val) {
-                this.$emit("handleCurrentChange",val);
+                this.$emit('handleCurrentChange', val);
             }
         }
-    }
+    };
 </script>
