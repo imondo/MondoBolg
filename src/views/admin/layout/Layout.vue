@@ -8,7 +8,7 @@
 
 </script>
 
-<style lang="less">
+<style lang="less" rel="stylesheet/less">
    section {
        height: 100%;
        margin: 0 10px;

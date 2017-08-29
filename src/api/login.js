@@ -1,5 +1,5 @@
-import vueAxios from 'utils/axios';
 import AV from 'leancloud-storage';
+import vueAxios from 'utils/axios';
 
 // 登录
 export function login(user, psd) {

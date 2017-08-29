@@ -37,7 +37,7 @@
     </el-row>
   </div>
 </template>
-<style lang="less">
+<style lang="less" rel="stylesheet/less">
   .publish {
     height: 100%;
     .el-row,.right {

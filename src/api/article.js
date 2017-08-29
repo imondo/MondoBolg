@@ -30,3 +30,11 @@ export function addArticle(data) {
     data: data
   });
 }
+
+// 删除文章
+export function delArticle(id) {
+  return vueAxios({
+    url: 'classes/Article/' + id,
+    method: 'DELETE'
+  });
+}

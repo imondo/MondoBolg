@@ -13,7 +13,7 @@
                 <router-link to="/admin/user" class="item">我的主页</router-link>
               </el-dropdown-item>
               <el-dropdown-item>
-                <router-link to="/logout" class="item">退出</router-link>
+                <a href="javascript:;" class="item" @click="logout">退出</a>
               </el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
@@ -215,6 +215,7 @@
 
 <script type='text/ecmascript-6'>
   import { mapGetters } from 'vuex';
+  import { loginOut } from 'api/login';
   export default {
     data() {
       return {
@@ -236,6 +237,18 @@
       searchSubmit() {
         this.$router.push({name: 'search', params: { class: this.searchParams }});
         this.searchParams = '';
+      },
+      logout() {
+        this.$confirm('确认退出？').then(() => {
+          loginOut().then(() => {
+            this.$router.push('/index');
+          });
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });
+        });
       }
     }
   };
