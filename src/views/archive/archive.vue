@@ -85,10 +85,7 @@
     },
     beforeRouteEnter(to, from, next) {
       next(vm => {
-        let params = {
-          'order': '-createdAt'
-        };
-        getClassify(params).then((response) => {
+        getClassify().then((response) => {
           if (response.status === CODE) {
             vm.list = response.data.results;
             vm.articleList = dataConversion(vm.list);
