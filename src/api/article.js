@@ -1,8 +1,8 @@
 import vueAxios from 'utils/axios';
 
-export function getArtcileList(skip) {
+export function getArtcileList(limit, skip) {
   return vueAxios({
-    url: 'classes/Article?order=-updatedAt&count=1&limit=6&skip=' + skip,
+    url: 'classes/Article?order=-createdAt&count=1&limit=' + limit + '&skip=' + skip,
     method: 'GET'
   });
 }
@@ -13,10 +13,17 @@ export function getArtcile(id) {
     method: 'GET'
   });
 }
+export function updateArtcile(data, id) {
+  return vueAxios({
+    url: 'classes/Article/' + id,
+    method: 'PUT',
+    data: data
+  });
+}
 
 export function getClassify(data) {
   return vueAxios({
-    url: 'classes/Article',
+    url: 'classes/Article?order=-createdAt',
     method: 'GET',
     params: data
   });

@@ -39,7 +39,7 @@
 
 <script type='text/ecmascript-6'>
   export default {
-    props: ['count'],
+    props: ['count', 'limit'],
     data() {
         return {
           current: 1
@@ -47,7 +47,7 @@
     },
     computed: {
       pages() {
-          return Math.ceil(this.count / 6);
+          return Math.ceil(this.count / this.limit);
       }
     },
     methods: {

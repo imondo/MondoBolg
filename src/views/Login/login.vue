@@ -2,7 +2,7 @@
   <div class="login-wrapper">
     <div class="login">
       <el-form :model="loginForm" :rules="rules2" ref="loginForm" label-width="40px" class="demo-ruleForm">
-        <h3>登陆</h3>
+        <h2>登陆</h2>
         <el-form-item label="用户" prop="username">
           <el-input type="text" v-model="loginForm.username" placeholder="请输入用户名" auto-complete="off"></el-input>
         </el-form-item>
@@ -17,7 +17,7 @@
     </div>
   </div>
 </template>
-<style lang="less">
+<style lang="less" rel="stylesheet/less">
   .login-wrapper {
     width:380px;
     height:280px;
@@ -26,19 +26,20 @@
     top:50%;
     margin:-190px 0 0 -230px;
     padding: 10px;
-  .login {
-    border-radius: 5px;
-    -moz-border-radius: 5px;
-    background-clip: padding-box;
-    width: 350px;
-    padding: 35px 35px 15px;
-    background: #fff;
-    border: 1px solid #eaeaea;
-    box-shadow: 0 0 25px #cac6c6;
-  h3 {
-    text-align: center;
-  }
-  }
+    .login {
+      border-radius: 5px;
+      -moz-border-radius: 5px;
+      background-clip: padding-box;
+      width: 350px;
+      padding: 35px 35px 15px;
+      background: #fff;
+      border: 1px solid #eaeaea;
+      box-shadow: 0 0 25px #cac6c6;
+      h2 {
+        margin-bottom: 15px;
+        text-align: center;
+      }
+    }
   }
 </style>
 <script type='text/ecmascript-6'>
@@ -89,8 +90,8 @@
         this.$refs[formName].validate((valid) => {
           if (valid) {
             Fn(this.loginForm.username, this.loginForm.password).then((res) => {
-              var user = JSON.parse(JSON.stringify(res)).data;
-              store.dispatch('SetToken', user.sessionToken).then(() => {
+              let user = JSON.parse(JSON.stringify(res));
+              store.dispatch('SetToken', res._sessionToken).then(() => {
                 store.dispatch('GetUser', user).then(() => {
                   this.$router.push({path: 'admin'});
                 });

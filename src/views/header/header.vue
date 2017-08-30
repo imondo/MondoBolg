@@ -4,9 +4,9 @@
       <router-link :to="{ path: '/index'}" replace class="log">Mondo</router-link>
       <div class="nav-right">
         <div class="right-item">
-          <el-dropdown class="item user" v-if="userInfo">
+          <el-dropdown class="item user" v-if="isLogin">
             <span class="el-dropdown-link">
-              {{userInfo.username}}<i class="el-icon-caret-bottom el-icon--right"></i>
+               <Icon type="person"></Icon> {{userInfo.username}}
             </span>
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item>
@@ -69,7 +69,6 @@
     &.headerAside {
       position: absolute;
       height: 100%;
-      background-color: #eeeeee;
     }
     .nav {
       position: relative;
@@ -172,7 +171,6 @@
           right: 0;
           top: 70px;
           width: 100%;
-          background-color: #eeeeee;
           transition: all .4s linear;
           -moz-transition: all .4s linear;
           -webkit-transition: all .4s linear;
@@ -201,7 +199,6 @@
               border: none;
               width: 85%;
               height: 23px;
-              background-color: #eeeeee;
             }
           }
         }
@@ -215,19 +212,20 @@
 
 <script type='text/ecmascript-6'>
   import { mapGetters } from 'vuex';
-  import { loginOut } from 'api/login';
   export default {
     data() {
       return {
-        searchParams: '',
-        isLogin: false
+        searchParams: ''
       };
     },
     computed: {
       ...mapGetters([
         'conditionState',
         'userInfo'
-      ])
+      ]),
+      isLogin() {
+        return this.$store.getters.userInfo;
+      }
     },
     methods: {
       open() {
@@ -240,7 +238,7 @@
       },
       logout() {
         this.$confirm('确认退出？').then(() => {
-          loginOut().then(() => {
+          this.$store.dispatch('LoginOut').then(() => {
             this.$router.push('/index');
           });
         }).catch(() => {

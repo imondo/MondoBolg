@@ -2,11 +2,11 @@
   <div class="publish">
     <el-row>
       <el-col :xs="24" :sm="12" :md="12" :lg="12" class="left">
-        <div class="title">
+        <div class="title text-center">
           <h1>{{formData.title}}</h1>
         </div>
         <div class="show text">
-          <div v-html="compiledMarkdown"></div>
+          <div v-html="compiledMarkdown" class="content"></div>
         </div>
       </el-col>
       <el-col :xs="24" :sm="12" :md="12" :lg="12" class="right">
@@ -56,6 +56,44 @@
     }
     .show {
       padding-left: 25px;
+      .content {
+        font-size: 14px;
+        hr {
+          display: block;
+          margin: 15px 0;
+          background-color: #e0e0e0;
+          border: 0;
+          height: 1px;
+        }
+        blockquote{
+          padding: 10px 20px;
+          margin-bottom: 25px;
+          background-color: #f7f7f7;
+          border-left: 2px solid #009A61;
+          word-break: break-word!important;
+          word-break: break-all;
+          line-height: 30px;
+          p {
+            font-weight: 600;
+            line-height: 1.7;
+            font-size: 16px;
+          }
+        }
+        pre {
+          margin: 30px 0;
+        }
+        code {
+          display: block;
+          width: 100%;
+          overflow-x: auto;
+          padding: 10px;
+          border-radius: 3px;
+          background-color: #F3F3F3;
+        }
+        h1, h2, h3, h4, h5 {
+          margin: 20px 0;
+        }
+      }
     }
     .text {
       font-family: "Microsoft Yahei";
@@ -71,11 +109,11 @@
 </style>
 <script type='text/ecmascript-6'>
   import marked from 'marked';
-  import { addArticle } from 'api/article';
+  import { getArtcile, addArticle, updateArtcile } from 'api/article';
+  import { conversionData } from 'utils/index';
   import Tag from 'components/Tags/index';
-  const CODE = 201;
+  const CODE = 200;
   export default {
-    name: 'edit',
     data() {
       return {
         formData: {
@@ -83,12 +121,31 @@
           classify: '',
           tag: ''
         },
-        input: ''
+        input: '',
+        id: ''
       };
     },
     computed: {
       compiledMarkdown: function () {
         return marked(this.input, {sanitize: true});
+      },
+      isEdit() {
+        return this.$route.meta.isEdit;
+      }
+    },
+    created() {
+      let vm = this;
+      if (this.isEdit) {
+        getArtcile(this.$route.params.id).then((res) => {
+          let data = conversionData(res).data;
+          vm.formData = {
+            title: data.title,
+            classify: data.classify,
+            tag: data.tag
+          };
+          vm.input = data.content;
+          vm.id = this.$route.params.id;
+        });
       }
     },
     methods: {
@@ -98,8 +155,17 @@
       save: function (params) {
         const vm = this;
         addArticle(params).then((res) => {
-          if (res.status === CODE) {
+          if (res.status === 201) {
             vm.$message.success('发表成功!');
+            vm.$router.push('/index'); // 跳转列表页面面
+          }
+        });
+      },
+      updates(params, id) {
+        const vm = this;
+        updateArtcile(params, id).then((res) => {
+          if (res.status === CODE) {
+            vm.$message.success('更新成功!');
             vm.$router.push('/index'); // 跳转列表页面面
           }
         });
@@ -111,11 +177,29 @@
             type: 'warning'
           });
         } else {
+          let vm = this;
           let params = {};
           params = this.formData;
           params.content = this.input;
           params.tags = this.$store.getters.articleList.tags;
-          this.save(params);
+          if (this.isEdit) {
+            this.updates(params, vm.id);
+          } else {
+            this.save(params);
+          }
+        }
+      }
+    },
+    watch: {
+      '$route' (to, from) {
+        let vm = this;
+        if (to.path.indexOf('/create') > -1) {
+          vm.formData = {
+            title: '',
+            classify: '',
+            tag: ''
+          };
+          vm.input = '';
         }
       }
     },

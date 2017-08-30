@@ -138,11 +138,9 @@ router.beforeEach((to, from, next) => {
   store.commit('SET_ASIDE', true);
   if (getToken()) {
     if (!store.getters.userInfo) {
-      currentUser().then((res) => {
-        let userInfo = JSON.parse(JSON.stringify(res)).data;
-        store.dispatch('GetUser', userInfo).then(() => {
-          next();
-        });
+      let userInfo = currentUser();
+      store.dispatch('GetUser', userInfo).then(() => {
+        next();
       });
     } else {
       next();

@@ -14,25 +14,30 @@
       <ul>
         <li class="list hide-card" ref='article' v-for="(article, index) in articleList">
           <div class="thumb-container">
-            <a href="javascript:;" class="wrap-img" :data="article.objectId" @click="upload($event)">
+            <a href="javascript:;" class="wrap-img">
               <img class="img-blur-done" :src="article.picture!=undefined ? article.picture.url:'/static/9.jpg'" alt="">
               <span class="img-upload">
+                  <input class="hidden" type="file" :id="index" name="file" :data="article.objectId" @change="processFile($event)">
+                  <label class="upload-label" :for="index"></label>
                   <i class="el-icon-upload2"></i>
-                </span>
+              </span>
             </a>
             <div class="content">
               <time>发布于 {{article.createdAt | formatDate}}</time>
               <h1>
-                <router-link :to="{name:'article', params:{id: article.objectId}}">{{article.title | formatDate(10)}}</router-link>
+                <router-link class="title" :to="{name:'article', params:{id: article.objectId}}">{{article.title}}</router-link>
               </h1>
               <div class="meta">
-                <el-button size="small" :data="article.objectId" @click="editArticle($event)">编辑</el-button>
+                <router-link :to="{name:'edit', params:{id: article.objectId}}">编辑</router-link>
                 <el-button size="small" :data="article.objectId" @click="deleteArticle($event)">删除</el-button>
               </div>
             </div>
           </div>
         </li>
       </ul>
+      <div class="pagination-wrapper">
+        <v-pagination @getArticle="setArticle" :count="count" :limit="limit"></v-pagination>
+      </div>
     </div>
   </div>
 </template>
@@ -73,7 +78,7 @@
           .wrap-img {
             position: relative;
             display: inline-block;
-            height: 100px;
+            height: 100%;
             margin-left: 10%;
             width: 80%;
             transition: all .25s linear;
@@ -94,9 +99,24 @@
               height: 100%;
               background-color: #FFFFFF;
               opacity: 0;
-              line-height: 5;
+              line-height: 7;
               font-size: 18px;
               text-align: center;
+              .el-icon-upload2 {
+                position: absolute;
+                top: 45%;
+                left: 45%;
+              }
+              .upload-label {
+                display: inline-block;
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                z-index: 10;
+                cursor: pointer;
+              }
             }
             &:hover {
               .img-upload {
@@ -111,21 +131,24 @@
             font-size: .8em;
             height: 72px;
             margin-bottom: -3px;
+            margin-left: 10%;
             overflow: hidden;
-            padding: 0 29px;
             position: relative;
-            width: 297px;
+            width: 80%;
             h1 {
               font-size: 16px;
-              overflow: hidden;
-              a {
-                white-space:nowrap;
+              .title {
+                display: inline-block;
+                width: 160px;
+                overflow: hidden;
+                text-overflow:ellipsis;
+                white-space: nowrap;
               }
             }
             .meta {
               position: absolute;
               top: 19px;
-              right: 19px;
+              right: 0;
               background-color: #FFFFFF;
               font-size: 12px;
               button {
@@ -140,13 +163,17 @@
   }
 </style>
 <script type='text/ecmascript-6'>
+  import pagination from 'components/Pagination/pagination';
   import { mapGetters } from 'vuex';
   import { getArtcileList, delArticle } from 'api/article';
+  import { uploadImg } from 'api/upload';
   const CODE = 200;
   export default {
     data() {
       return {
-        articleList: []
+        articleList: [],
+        count: 0,
+        limit: 10
       };
     },
     computed: {
@@ -156,38 +183,41 @@
     },
     beforeRouteEnter(to, from, next) {
       next(vm => {
-        vm.getList(0);
+        vm.getList(10, 0);
       });
     },
     methods: {
-      getList(skip) {
+      getList(limit, skip) {
         const vm = this;
-        getArtcileList(skip).then((response) => {
+        getArtcileList(limit, skip).then((response) => {
           if (response.status === CODE) {
             vm.articleList = response.data.results;
             this.$store.commit('SET_LIST', vm.articleList);
+            vm.count = response.data.count;
           }
         });
-      },
-      setArticle(index) {
-        let skip = index * 6;
-        this.getList(skip);
-      },
-      editArticle(e) {
-        let id = e.currentTarget.getAttribute('data');
-        console.log(id);
       },
       deleteArticle(e) {
         let id = e.currentTarget.getAttribute('data');
         delArticle(id).then(() => {
           this.$message.success('删除成功');
-          this.getList(0);
+          this.getList(10, 0);
         });
       },
-      upload(e) {
+      processFile(e) {
         let id = e.currentTarget.getAttribute('data');
-        console.log(id);
+        uploadImg(e.target.files[0], id).then(() => {
+          this.$message.success('上传成功');
+          this.getList(10, 0);
+        });
+      },
+      setArticle(index) {
+        let skip = index * 10;
+        this.getList(10, skip);
       }
+    },
+    components: {
+      'v-pagination': pagination
     }
   };
 </script>

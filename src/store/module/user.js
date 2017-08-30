@@ -39,7 +39,7 @@ const user = {
             return new Promise((resolve, reject) => {
                 loginOut().then(() => {
                     commit('SET_TOKEN', {});
-                    commit('SET_USER', {});
+                    commit('SET_USER', null);
                     removeToken();
                     resolve();
                 }).catch(error => {

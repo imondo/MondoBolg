@@ -27,7 +27,7 @@
           </div>
         </div>
         <div class="pagination-wrapper">
-          <v-pagination @getArticle="setArticle" :count="count"></v-pagination>
+          <v-pagination @getArticle="setArticle" :count="count" :limit="limit"></v-pagination>
         </div>
       </div>
     </div>
@@ -192,18 +192,19 @@
     data() {
       return {
         articleList: [],
-        count: 0
+        count: 0,
+        limit: 6
       };
     },
     beforeRouteEnter(to, from, next) {
       next(vm => {
-        vm.getList(0);
+        vm.getList(6, 0);
       });
     },
     methods: {
-      getList(skip) {
+      getList(limit, skip) {
         const vm = this;
-        getArtcileList(skip).then((response) => {
+        getArtcileList(limit, skip).then((response) => {
           if (response.status === CODE) {
             vm.articleList = response.data.results;
             this.$store.commit('SET_LIST', vm.articleList);
@@ -222,7 +223,7 @@
       },
       setArticle(index) {
           let skip = index * 6;
-          this.getList(skip);
+          this.getList(6, skip);
       }
     },
     components: {

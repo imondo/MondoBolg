@@ -29,6 +29,7 @@ export const RouterMap = [
   {
     path: '/login',
     name: 'login',
+    meta: {isLogin: true},
     component: loginView
   },
   {
@@ -61,11 +62,12 @@ export const RouterMap = [
   {
     path: '/admin',
     name: 'admin',
-    redirect: '/admin/edit',
+    redirect: '/admin/create',
     component: LayoutView,
     children: [
       {path: 'user', component: articleListView},
-      {path: 'edit', component: editView}
+      {path: 'edit/:id', component: editView, name: 'edit', meta: {isEdit: true, isRoute: true}},
+      {path: 'create', component: editView, name: 'create', meta: {isRoute: true}}
     ]
   }
 ];

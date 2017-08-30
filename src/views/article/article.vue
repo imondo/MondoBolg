@@ -60,10 +60,10 @@
         height: 1px;
       }
       blockquote{
-        padding: 20px;
+        padding: 10px 20px;
         margin-bottom: 25px;
         background-color: #f7f7f7;
-        border-left: 6px solid #b4b4b4;
+        border-left: 2px solid #009A61;
         word-break: break-word!important;
         word-break: break-all;
         line-height: 30px;
@@ -107,7 +107,6 @@
       };
     },
     beforeRouteEnter(to, from, next) {
-      console.log(document.getElementById('article-wrapper'));
       getArtcile(to.params.id).then((response) => {
         if (response.status === CODE) {
           next(vm => {

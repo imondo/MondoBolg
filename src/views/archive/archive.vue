@@ -86,7 +86,7 @@
     beforeRouteEnter(to, from, next) {
       next(vm => {
         let params = {
-          'order': '-updatedAt'
+          'order': '-createdAt'
         };
         getClassify(params).then((response) => {
           if (response.status === CODE) {

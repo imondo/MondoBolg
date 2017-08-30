@@ -1,16 +1,8 @@
 import AV from 'leancloud-storage';
-import vueAxios from 'utils/axios';
 
 // 登录
 export function login(user, psd) {
-    return vueAxios({
-      url: '/login',
-      method: 'POST',
-      data: {
-        username: user,
-        password: psd
-      }
-    });
+  return AV.User.logIn(user, psd);
 }
 
 export function loginOut() {
@@ -19,8 +11,6 @@ export function loginOut() {
 
 // 是否为当前用户
 export function currentUser() {
-  return vueAxios({
-    url: '/users/me',
-    method: 'GET'
-  });
+  const user = JSON.parse(JSON.stringify(AV.User.current()));
+  return user;
 }
