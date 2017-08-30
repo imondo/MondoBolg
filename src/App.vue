@@ -31,6 +31,7 @@
     methods: {
       menu() {
         this.scroll = document.body.scrollTop;
+        console.log(document.body.offsetHeight);
         if (this.scroll > 20) {
           this.isScroll = true;
         } else {
@@ -55,6 +56,11 @@
           this.isUser = true;
         } else {
           this.isUser = false;
+        }
+      },
+      'scroll' (newVal, oldVal) {
+        if (newVal < oldVal) {
+          this.isScroll = false;
         }
       }
     },
