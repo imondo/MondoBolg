@@ -1,5 +1,5 @@
 
-@media only screen and (max-width: 936px)  {
+@media (max-width: 936px)  {
   .main-wrapper {
     padding: 60px 10px 10px 20px;
   }
@@ -18,10 +18,21 @@
     width: 200px!important;
   }
 }
-@media only screen and (max-width: 760px)  {
+@media (max-width: 760px)  {
   .main-wrapper {
     padding: 90px 20px 10px 20px;
     width: 100%;
+  }
+  .login-wrapper {
+    position: static!important;
+    width: 100%!important;
+    margin: 0!important;
+    padding: 0!important;
+    .login {
+      width: 100%!important;
+      border: none!important;
+      box-shadow: none!important;
+    }
   }
   .header-wrapper {
     .nav {
@@ -57,5 +68,8 @@
   }
   .user-wrapper .list-container ul .list .content h1 .title {
     width: 100% !important;
+  }
+  .el-message-box {
+    width: 80%!important;
   }
 }

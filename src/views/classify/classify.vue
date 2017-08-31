@@ -1,21 +1,21 @@
 <template>
-    <div class="classify-wrapper list-wrapper">
-      <div class="common-title"><span>{{classRoute}}</span> ：{{classIfy}}</div>
-      <div class="post-lists">
-        <ul>
-          <li class="item" v-for="item in classList">
-              <router-link class="item-body" :to="{name:'article', params:{id: item.objectId}}">
-                <p class="item-title">{{item.title}}</p>
-                <p class="item-meta">
-                  <span class="item-meta-desc">发布于 <time>{{item.createdAt | formatDate}}</time></span>
-                  <span class="item-meta-icon" :data-icon="item.classify"></span>
-                </p>
-              </router-link>
-          </li>
-        </ul>
-        <h3 v-if="isSearch && classList.length == 0">抱歉，还没有相关文章.</h3>
-      </div>
+  <div class="classify-wrapper list-wrapper">
+    <div class="common-title"><span>{{classRoute}}</span> ：{{classIfy}}</div>
+    <div class="post-lists">
+      <ul>
+        <li class="item" v-for="item in classList">
+          <router-link class="item-body" :to="{name:'article', params:{id: item.objectId}}">
+            <p class="item-title">{{item.title}}</p>
+            <p class="item-meta">
+              <span class="item-meta-desc">发布于 <time>{{item.createdAt | formatDate}}</time></span>
+              <span class="item-meta-icon" :data-icon="item.classify"></span>
+            </p>
+          </router-link>
+        </li>
+      </ul>
+      <h3 v-if="isSearch && classList.length == 0">抱歉，还没有相关文章.</h3>
     </div>
+  </div>
 </template>
 <style lang="less" rel="stylesheet/less">
   .classify-wrapper {

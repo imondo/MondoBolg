@@ -26,7 +26,10 @@
               <Tag></Tag>
             </el-form-item>
             <el-form-item>
-              <el-button type="primary" @click="onSubmit()" size="small">发表</el-button>
+              <el-button type="primary" size="small" @click="onSubmit()">发表</el-button>
+            </el-form-item>
+            <el-form-item>
+              <el-button type="primary" icon="el-icon-picture" size="small" @click="insertPicture">插入图片</el-button>
             </el-form-item>
           </el-form>
         </div>
@@ -35,6 +38,7 @@
         </div>
       </el-col>
     </el-row>
+    <uploadDialog :dialogVisible="isDialog" @upload="upload"></uploadDialog>
   </div>
 </template>
 <style lang="less" rel="stylesheet/less">
@@ -79,6 +83,12 @@
             font-size: 16px;
           }
         }
+        img {
+          max-width: 100%;
+          height: auto;
+          vertical-align: middle;
+          border: 0;
+        }
         pre {
           margin: 30px 0;
         }
@@ -111,7 +121,9 @@
   import marked from 'marked';
   import { getArtcile, addArticle, updateArtcile } from 'api/article';
   import { conversionData } from 'utils/index';
+  import { uploadArticleImg } from 'api/upload';
   import Tag from 'components/Tags/index';
+  import uploadDialog from 'components/uploadDialog/index';
   const CODE = 200;
   export default {
     data() {
@@ -131,6 +143,9 @@
       },
       isEdit() {
         return this.$route.meta.isEdit;
+      },
+      isDialog() {
+        return this.$store.getters.conditionState.isDialog;
       }
     },
     created() {
@@ -188,6 +203,16 @@
             this.save(params);
           }
         }
+      },
+      insertPicture() {
+        this.$store.commit('SET_DIALOG', true);
+      },
+      upload(e) {
+        uploadArticleImg(e.target.files[0]).then((file) => {
+          this.$store.commit('SET_DIALOG', false);
+          this.$message.success('上传成功');
+          this.input = this.input + '\r\n![Alt text](' + conversionData(file).url + ')';
+        });
       }
     },
     watch: {
@@ -204,7 +229,8 @@
       }
     },
     components: {
-      'Tag': Tag
+      'Tag': Tag,
+      'uploadDialog': uploadDialog
     }
   };
 </script>

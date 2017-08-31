@@ -59,6 +59,9 @@
         border: 0;
         height: 1px;
       }
+      a {
+        color: #57a3f3;
+      }
       blockquote{
         padding: 10px 20px;
         margin-bottom: 25px;
@@ -72,6 +75,12 @@
           line-height: 1.7;
           font-size: 16px;
         }
+      }
+      img {
+        max-width: 100%;
+        height: auto;
+        vertical-align: middle;
+        border: 0;
       }
       pre {
         margin: 30px 0;
@@ -112,7 +121,11 @@
           next(vm => {
             vm.article = response.data;
             let htmlData = marked(vm.article.content);
-            vm.articleHtmlData = htmlData;
+            if (htmlData.indexOf('<hr>') < 0) {
+              vm.articleHtmlData = '<hr>' + htmlData;
+            } else {
+              vm.articleHtmlData = htmlData;
+            }
           });
         }
       });

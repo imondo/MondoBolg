@@ -78,18 +78,17 @@
           .wrap-img {
             position: relative;
             display: inline-block;
-            height: 100%;
-            margin-left: 10%;
             width: 80%;
+            height: 0;
+            margin-left: 10%;
+            padding-bottom: 46%;
+            overflow: hidden;
             transition: all .25s linear;
             -moz-transition: all .25s linear;
             -webkit-transition: all .25s linear;
             -o-transition: all .25s linear;
             img {
               width: 100%;
-              height: 100%;
-              border-radius: 4px;
-              border: 1px solid #f0f0f0;
             }
             .img-upload {
               position: absolute;
@@ -126,7 +125,6 @@
             }
           }
           .content {
-            background: rgba(255,255,255,0.9);
             display: inline-block;
             font-size: .8em;
             height: 72px;
@@ -147,13 +145,14 @@
             }
             .meta {
               position: absolute;
-              top: 19px;
+              top: -3px;
               right: 0;
-              background-color: #FFFFFF;
+              background-color: #f7f7f7;
               font-size: 12px;
               button {
                 border: none;
                 margin-left: 0;
+                background-color: #f7f7f7;
               }
             }
           }
@@ -199,9 +198,11 @@
       },
       deleteArticle(e) {
         let id = e.currentTarget.getAttribute('data');
-        delArticle(id).then(() => {
-          this.$message.success('删除成功');
-          this.getList(10, 0);
+        this.$confirm('确认删除吗？').then(() => {
+          delArticle(id).then(() => {
+            this.$message.success('删除成功');
+            this.getList(10, 0);
+          });
         });
       },
       processFile(e) {

@@ -68,6 +68,12 @@
             animation-duration: .5s;
             opacity: 1;
             color: #fbfdff;
+            a {
+              color: #FFFFFF;
+            }
+            img {
+              display: none;
+            }
           }
           .bg-deepgrey {
             opacity: 0.2;
@@ -215,8 +221,8 @@
       markedContent(value) {
         value = marked(value);
         if (value.indexOf('<hr>') > -1) {
-          if (value.length > 50) {
-            value = value.substr(4, 50) + '...';
+          if (value.length > 40) {
+            value = value.substr(4, 40) + '...';
           }
         }
         return value;

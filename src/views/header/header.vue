@@ -35,8 +35,11 @@
           </span>
         </div>
         <div class="icon-item" :class="{hidden: conditionState.aside}">
+          <router-link to="/admin/user" class="item" v-if="isLogin">我的主页</router-link>
+          <router-link to="/admin" class="item">编辑文章</router-link>
           <router-link to="/archive" class="item">归档</router-link>
           <router-link to="/about" class="item">关于</router-link>
+          <a href="javascript:;" v-if="isLogin" class="item" @click="logout">退出</a>
           <p class="item">
             <input type="text" class="item-mobile-input" placeholder="搜索..." v-model="searchParams" @keyup.enter="searchSubmit">
             <span class="icon-contaner">
@@ -239,12 +242,8 @@
       logout() {
         this.$confirm('确认退出？').then(() => {
           this.$store.dispatch('LoginOut').then(() => {
+            this.$message.success('退出成功');
             this.$router.push('/index');
-          });
-        }).catch(() => {
-          this.$message({
-            type: 'info',
-            message: '已取消删除'
           });
         });
       }
