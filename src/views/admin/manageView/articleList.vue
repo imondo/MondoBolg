@@ -152,7 +152,6 @@
               button {
                 border: none;
                 margin-left: 0;
-                background-color: #f7f7f7;
               }
             }
           }

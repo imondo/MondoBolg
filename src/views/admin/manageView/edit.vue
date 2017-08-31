@@ -69,6 +69,9 @@
           border: 0;
           height: 1px;
         }
+        a {
+          color: #57a3f3;
+        }
         blockquote{
           padding: 10px 20px;
           margin-bottom: 25px;
@@ -78,7 +81,6 @@
           word-break: break-all;
           line-height: 30px;
           p {
-            font-weight: 600;
             line-height: 1.7;
             font-size: 16px;
           }
@@ -102,6 +104,10 @@
         }
         h1, h2, h3, h4, h5 {
           margin: 20px 0;
+          font-family: inherit;
+          font-weight: 600;
+          line-height: 1.2;
+          color: inherit;
         }
       }
     }

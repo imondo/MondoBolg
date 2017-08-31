@@ -94,6 +94,7 @@
           position: absolute;
           top: 20%;
           overflow: hidden;
+          width: 100%;
           height: 80px;
           padding: 0 30px;
           word-break:break-all; /*支持IE，chrome，FF不支持*/
