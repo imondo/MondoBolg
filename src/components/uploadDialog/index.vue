@@ -1,8 +1,10 @@
 
 <template>
-  <el-dialog class="dialog" title="上传" :visible.sync="dialogVisible" :before-close="handleClose">
+  <el-dialog class="dialog" title="图片上传" :visible.sync="dialogVisible" :before-close="handleClose">
     <input class="hidden" type="file" id="file" @change="uploadMySelf($event)">
-    <label for="file">上传</label>
+    <label for="file">
+      <i class="el-icon-upload2"></i>
+    </label>
   </el-dialog>
 </template>
 <style lang="less" rel="stylesheet/less">

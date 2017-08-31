@@ -47,6 +47,19 @@
     .el-row,.right {
       height: 100%;
     }
+    .el-dialog--small {
+      width: 80%;
+      max-width: 345px;
+      label {
+        display: inline-block;
+        width: 100%;
+        height: 150px;
+        line-height: 150px;
+        text-align: center;
+        font-size: 21px;
+        color: #cccccc;
+      }
+    }
     .right {
       float: right;
     }
