@@ -141,6 +141,7 @@
   import { getArtcile, addArticle, updateArtcile } from 'api/article';
   import { conversionData } from 'utils/index';
   import { uploadArticleImg } from 'api/upload';
+  import { handleAbout, getAbout } from 'api/about';
   import Tag from 'components/Tags/index';
   import uploadDialog from 'components/uploadDialog/index';
   const CODE = 200;
@@ -165,11 +166,14 @@
       },
       isDialog() {
         return this.$store.getters.conditionState.isDialog;
+      },
+      isAbout() {
+        return this.$route.meta.isAbout;
       }
     },
     created() {
       let vm = this;
-      if (this.isEdit) {
+      if (vm.isEdit) {
         getArtcile(this.$route.params.id).then((res) => {
           let data = conversionData(res).data;
           vm.formData = {
@@ -179,6 +183,17 @@
           };
           vm.input = data.content;
           vm.id = this.$route.params.id;
+        });
+      }
+      if (vm.isAbout) {
+        getAbout().then((res) => {
+          let data = conversionData(res).data.results;
+          vm.formData = {
+            title: data[0].title,
+            classify: data[0].classify
+          };
+          vm.input = data[0].content;
+          vm.id = data[0].objectId;
         });
       }
     },
@@ -204,6 +219,15 @@
           }
         });
       },
+      saveAbout(params, id) {
+        const vm = this;
+        handleAbout(params, id).then((res) => {
+          if (res.status === CODE) {
+            vm.$message.success('变更成功!');
+            vm.$router.push('/about'); // 跳转列表页面面
+          }
+        });
+      },
       onSubmit: function () {
         if (this.title === '' || this.input === '') {
           this.$message({
@@ -215,11 +239,17 @@
           let params = {};
           params = this.formData;
           params.content = this.input;
-          params.tags = this.$store.getters.articleList.tags;
+          if (!this.isAbout) {
+            params.tags = this.$store.getters.articleList.tags;
+          }
           if (this.isEdit) {
             this.updates(params, vm.id);
           } else {
-            this.save(params);
+            if (this.isAbout) {
+              this.saveAbout(params, vm.id);
+            } else {
+              this.save(params);
+            }
           }
         }
       },

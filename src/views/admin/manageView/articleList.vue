@@ -1,48 +1,61 @@
 <template>
   <div class="user-wrapper">
     <div class="user-info">
-      {{userInfo.username}}
+      <Icon type="android-walk"></Icon>
     </div>
     <div class="trigger-menu">
       <ul>
-        <li class="active">
-          <a href="javascript:;">我的文章</a>
+        <li :class="{active:index==nowIndex}" v-for="(item, index) in tabsParam"  @click="toggleTabs(index)">
+          <a href="javascript:;">
+            <Icon :type="item.icon"></Icon> {{item.name}}
+          </a>
         </li>
       </ul>
     </div>
     <div class="list-container">
       <ul>
-        <li class="list hide-card" ref='article' v-for="(article, index) in articleList">
-          <div class="thumb-container">
-            <a href="javascript:;" class="wrap-img">
-              <img class="img-blur-done" :src="article.picture!=undefined ? article.picture.url:'/static/9.jpg'" alt="">
-              <span class="img-upload">
+        <li v-show="nowIndex === 0">
+          <ul>
+            <li class="list hide-card" ref='article' v-for="(article, index) in articleList">
+              <div class="thumb-container">
+                <a href="javascript:;" class="wrap-img">
+                  <img class="img-blur-done" :src="article.picture!=undefined ? article.picture.url:'/static/9.jpg'" alt="">
+                  <span class="img-upload">
                   <input class="hidden" type="file" :id="index" name="file" :data="article.objectId" @change="processFile($event)">
                   <label class="upload-label" :for="index"></label>
                   <i class="el-icon-upload2"></i>
               </span>
-            </a>
-            <div class="content">
-              <time>发布于 {{article.createdAt | formatDate}}</time>
-              <h1>
-                <router-link class="title" :to="{name:'article', params:{id: article.objectId}}">{{article.title}}</router-link>
-              </h1>
-              <div class="meta">
-                <router-link :to="{name:'edit', params:{id: article.objectId}}">编辑</router-link>
-                <el-button size="small" :data="article.objectId" @click="deleteArticle($event)">删除</el-button>
+                </a>
+                <div class="content">
+                  <time>发布于 {{article.createdAt | formatDate}}</time>
+                  <h1>
+                    <router-link class="title" :to="{name:'article', params:{id: article.objectId}}">{{article.title}}</router-link>
+                  </h1>
+                  <div class="meta">
+                    <router-link :to="{name:'edit', params:{id: article.objectId}}">编辑</router-link>
+                    <el-button size="small" :data="article.objectId" @click="deleteArticle($event)">删除</el-button>
+                  </div>
+                </div>
               </div>
-            </div>
+            </li>
+          </ul>
+          <div class="pagination-wrapper">
+            <v-pagination @getArticle="setArticle" :count="count" :limit="limit"></v-pagination>
           </div>
         </li>
+        <li v-show="nowIndex === 1">
+          正在建设
+        </li>
       </ul>
-      <div class="pagination-wrapper">
-        <v-pagination @getArticle="setArticle" :count="count" :limit="limit"></v-pagination>
-      </div>
     </div>
   </div>
 </template>
 <style lang="less" rel="stylesheet/less">
   .user-wrapper {
+    .user-info {
+      font-size: 16px;
+      padding-left: 21px;
+    }
     .trigger-menu {
       margin-bottom: 20px;
       border-bottom: 1px solid #f0f0f0;
@@ -54,7 +67,7 @@
         padding: 8px 0;
         margin-bottom: -1px;
         &.active {
-           border-bottom: 2px solid #646464;
+          border-bottom: 2px solid #646464;
         }
         a {
           padding: 13px 20px;
@@ -96,11 +109,12 @@
               display: inline-block;
               width: 100%;
               height: 100%;
-              background-color: #FFFFFF;
+              background-color: #f7f7f7;
               opacity: 0;
               line-height: 7;
               font-size: 18px;
               text-align: center;
+              color: #00a0e8;
               .el-icon-upload2 {
                 position: absolute;
                 top: 45%;
@@ -119,8 +133,7 @@
             }
             &:hover {
               .img-upload {
-                opacity: .5;
-                color: inherit;
+                opacity: .7;
               }
             }
           }
@@ -169,9 +182,15 @@
   export default {
     data() {
       return {
+        tabsParam: [
+          {icon: 'android-folder', name: '我的文章'},
+          {icon: 'pricetag', name: '我的标签'}
+        ],
+        nowIndex: 0,
         articleList: [],
         count: 0,
-        limit: 10
+        limit: 9,
+        isMobile: false
       };
     },
     computed: {
@@ -181,10 +200,13 @@
     },
     beforeRouteEnter(to, from, next) {
       next(vm => {
-        vm.getList(10, 0);
+        vm.getList(vm.limit, 0);
       });
     },
     methods: {
+      toggleTabs(index) {
+        this.nowIndex = index;
+      },
       getList(limit, skip) {
         const vm = this;
         getArtcileList(limit, skip).then((response) => {
@@ -200,7 +222,7 @@
         this.$confirm('确认删除吗？').then(() => {
           delArticle(id).then(() => {
             this.$message.success('删除成功');
-            this.getList(10, 0);
+            this.getList(this.limit, 0);
           });
         });
       },
@@ -208,12 +230,12 @@
         let id = e.currentTarget.getAttribute('data');
         uploadImg(e.target.files[0], id).then(() => {
           this.$message.success('上传成功');
-          this.getList(10, 0);
+          this.getList(this.limit, 0);
         });
       },
       setArticle(index) {
-        let skip = index * 10;
-        this.getList(10, skip);
+        let skip = index * this.limit;
+        this.getList(this.limit, skip);
       }
     },
     components: {

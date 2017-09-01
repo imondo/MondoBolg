@@ -67,7 +67,8 @@ export const RouterMap = [
     children: [
       {path: 'user', component: articleListView},
       {path: 'edit/:id', component: editView, name: 'edit', meta: {isEdit: true, isRoute: true}},
-      {path: 'create', component: editView, name: 'create', meta: {isRoute: true}}
+      {path: 'create', component: editView, name: 'create', meta: {isRoute: true}},
+      {path: 'aboutCreate', component: editView, name: 'aboutCreate', meta: {isAbout: true, isRoute: true}}
     ]
   }
 ];

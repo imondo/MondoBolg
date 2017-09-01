@@ -1,5 +1,6 @@
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
+import APP_CONFIG from './config';
 import Vue from 'vue';
 import App from './App';
 import iView from 'iview';
@@ -61,12 +62,9 @@ import {
 import 'element-ui/lib/theme-default/index.css';
 import AV from 'leancloud-storage';
 
-var APP_ID = '05I4knkLF3pLp02UB5lfe0FQ-gzGzoHsz';
-var APP_KEY = 'Nnu56KEHv8hsvqDAyxwPWsgp';
-
 AV.init({
-  appId: APP_ID,
-  appKey: APP_KEY
+  appId: APP_CONFIG.id,
+  appKey: APP_CONFIG.key
 });
 
 // Vue.config.productionTip = false

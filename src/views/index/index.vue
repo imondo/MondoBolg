@@ -1,36 +1,36 @@
 <template>
-    <div class="home list-wrapper">
-      <div class="post-lists">
-        <div class="post-list-body clearfix">
-          <div class="post-list-item" v-for="article in articleList">
-            <div class="post-list-item-container">
-              <div class="item-thumb" v-if="article.picture!=undefined" :style="{'background-image': 'url('+ article.picture.url +')'}" v-cloak></div>
-              <div class="item-thumb" v-else></div>
-              <router-link :to="{name:'article', params:{id: article.objectId}}">
-                <div class="item-desc" v-html="markedContent(article.content)"></div>
-                <div class="bg-deepgrey"></div>
-              </router-link>
-              <div class="item-slant reverse-slant"></div>
-              <div class="item-slant"></div>
-              <div class="item-label">
-                <div class="item-title">
-                  <router-link class="title" :to="{name:'article', params:{id: article.objectId}}">{{article.title}}</router-link>
-                </div>
-                <div class="item-meta">
-                  <div class="item-meta-icon" :data-icon="article.classify"></div>
-                  <div class="item-meta-cat">
-                    <router-link class="title" :to="{name:'classify', params:{class: article.classify}}">{{article.classify}}</router-link>
-                  </div>
+  <div class="home list-wrapper">
+    <div class="post-lists">
+      <div class="post-list-body clearfix">
+        <div class="post-list-item" v-for="article in articleList">
+          <div class="post-list-item-container">
+            <div class="item-thumb" v-if="article.picture!=undefined" :style="{'background-image': 'url('+ article.picture.url +')'}" v-cloak></div>
+            <div class="item-thumb" v-else></div>
+            <router-link :to="{name:'article', params:{id: article.objectId}}">
+              <div class="item-desc" v-html="markedContent(article.content)"></div>
+              <div class="bg-deepgrey"></div>
+            </router-link>
+            <div class="item-slant reverse-slant"></div>
+            <div class="item-slant"></div>
+            <div class="item-label">
+              <div class="item-title">
+                <router-link class="title" :to="{name:'article', params:{id: article.objectId}}">{{article.title}}</router-link>
+              </div>
+              <div class="item-meta">
+                <div class="item-meta-icon" :data-icon="article.classify"></div>
+                <div class="item-meta-cat">
+                  <router-link class="title" :to="{name:'classify', params:{class: article.classify}}">{{article.classify}}</router-link>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <div class="pagination-wrapper">
-          <v-pagination @getArticle="setArticle" :count="count" :limit="limit"></v-pagination>
-        </div>
+      </div>
+      <div class="pagination-wrapper">
+        <v-pagination @getArticle="setArticle" :count="count" :limit="limit"></v-pagination>
       </div>
     </div>
+  </div>
 </template>
 <style lang="less" rel="stylesheet/less">
   .home {
@@ -200,12 +200,12 @@
       return {
         articleList: [],
         count: 0,
-        limit: 6
+        limit: 9
       };
     },
     beforeRouteEnter(to, from, next) {
       next(vm => {
-        vm.getList(6, 0);
+        vm.getList(vm.limit, 0);
       });
     },
     methods: {
@@ -225,16 +225,20 @@
           if (value.length > 40) {
             value = value.substr(4, 40) + '...';
           }
+        } else {
+          if (value.length > 40) {
+            value = value.substr(0, 40) + '...';
+          }
         }
         return value;
       },
       setArticle(index) {
-          let skip = index * 6;
-          this.getList(6, skip);
+        let skip = index * this.limit;
+        this.getList(this.limit, skip);
       }
     },
     components: {
-       'v-pagination': pagination
+      'v-pagination': pagination
     }
   };
 </script>

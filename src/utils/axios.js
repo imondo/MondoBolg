@@ -1,4 +1,5 @@
 import axios from 'axios';
+import APP_CONFIG from '../config';
 import { getToken } from './auth';
 
 const vueAxios = axios.create({
@@ -8,8 +9,8 @@ const vueAxios = axios.create({
 
 // 请求拦截器
 vueAxios.interceptors.request.use(config => {
-  config.headers['X-LC-Id'] = '05I4knkLF3pLp02UB5lfe0FQ-gzGzoHsz';
-  config.headers['X-LC-Key'] = 'Nnu56KEHv8hsvqDAyxwPWsgp';
+  config.headers['X-LC-Id'] = APP_CONFIG.id;
+  config.headers['X-LC-Key'] = APP_CONFIG.key;
   if (getToken()) {
     config.headers['Content-Type'] = 'application/json';
     config.headers['X-LC-Session'] = getToken();

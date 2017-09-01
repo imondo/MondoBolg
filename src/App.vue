@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <v-header :class="{slideDown:!isScroll,slideUp:isScroll}" @click="aside"></v-header>
-    <div class="main-wrapper clearfix" :class="{mainLogin: isLogin, mainAside: !conditionState.aside, mainAdit: isEdit, mainUser: isUser}">
+    <div class="main-wrapper clearfix" :class="{mainLogin: isLogin, mainAside: !conditionState.aside, mainEdit: isEdit, mainUser: isUser}">
       <transition :name="transitionName">
         <router-view></router-view>
       </transition>
@@ -81,7 +81,7 @@
     &.mainLogin {
       height: 100%;
     }
-    &.mainAdit {
+    &.mainEdit {
       max-width: 100%;
       padding-top: 73px;
     }
