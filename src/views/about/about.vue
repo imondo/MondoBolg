@@ -2,9 +2,23 @@
     <div>
       <div class="list-wrapper">
         <div class="info">
-          <p>生活已然尽兴，何必畏首畏尾。
-            <a href="https://github.com/one-pupil" target="_blank"><Icon type="social-github"></Icon></a>
-          </p>
+          <div class="profile-header clearfix">
+            <div class="avatar-wrapper">
+              <div class="avatar">
+                <img src="/static/avatar.png" alt="">
+              </div>
+            </div>
+            <div class="vcard-names-container clearfix">
+              <h3>iMondo</h3>
+              <ul>
+                <li><a href="https://github.com/one-pupil" target="_blank"><Icon type="social-github"></Icon></a></li>
+                <li><a href="mailto:imondo@qq.com" target="_blank"><Icon type="email"></Icon></a></li>
+              </ul>
+            </div>
+          </div>
+          <div class="user-profile">
+            <p>生活已然尽兴，何必畏首畏尾。</p>
+          </div>
         </div>
         <div class="info-wrapper" v-html="htmlData"></div>
       </div>
@@ -17,6 +31,43 @@
     i {
       font-size: 20px;
       vertical-align: middle;
+    }
+    .profile-header {
+      margin-bottom: 15px;
+      .avatar-wrapper {
+        float: left;
+        .avatar {
+          width: 100px;
+          height: 100px;
+          img {
+            width: 100%;
+            height: 100%;
+          }
+        }
+      }
+      .vcard-names-container {
+        position: relative;
+        float: left;
+        width: 100px;
+        height: 100px;
+        ul {
+          li {
+            float: left;
+            a {
+              padding: 0 5px;
+            }
+          }
+        }
+      }
+    }
+    .user-profile {
+      margin-bottom: 15px;
+      padding-bottom: 15px;
+      border-bottom: 1px #e1e4e8 solid;
+      p {
+        font-size: 14px;
+        color: #6a737d;
+      }
     }
   }
   .info-wrapper {

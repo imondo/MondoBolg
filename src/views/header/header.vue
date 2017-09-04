@@ -1,7 +1,7 @@
 <template>
   <div class="header-wrapper" :class="{headerAside:!conditionState.aside}">
     <div class="nav">
-      <router-link :to="{ path: '/index'}" replace class="log">Mondo</router-link>
+      <router-link :to="{ path: '/index'}" replace class="log">iMondo</router-link>
       <div class="nav-right">
         <div class="right-item">
           <el-dropdown class="item user" v-if="isLogin">

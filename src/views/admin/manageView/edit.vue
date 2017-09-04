@@ -15,21 +15,21 @@
         </div>
         <div class="save">
           <el-form :inline="true"  class="demo-form-inline">
-            <el-form-item label="文章分类">
+            <el-form-item>
               <el-select placeholder="文章分类" v-model="formData.classify" size="small">
                 <el-option label="工作" value="工作"></el-option>
                 <el-option label="生活" value="生活"></el-option>
                 <el-option label="笔记" value="笔记"></el-option>
               </el-select>
             </el-form-item>
-            <el-form-item label="标签">
+            <el-form-item>
               <Tag></Tag>
             </el-form-item>
             <el-form-item>
-              <el-button type="primary" size="small" @click="onSubmit()">发表</el-button>
+              <el-button type="primary" icon="picture" size="small" @click="insertPicture">图片</el-button>
             </el-form-item>
             <el-form-item>
-              <el-button type="primary" icon="el-icon-picture" size="small" @click="insertPicture">插入图片</el-button>
+              <el-button type="primary" icon="check" size="small" @click="onSubmit()">发表</el-button>
             </el-form-item>
           </el-form>
         </div>
