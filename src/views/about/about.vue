@@ -1,7 +1,7 @@
 <template xmlns="http://www.w3.org/1999/html">
     <div>
       <div class="list-wrapper">
-        <div class="info">
+        <div class="user-info">
           <div class="profile-header clearfix">
             <div class="avatar-wrapper">
               <div class="avatar">
@@ -25,7 +25,7 @@
     </div>
 </template>
 <style lang="less" rel="stylesheet/less">
-  .info {
+  .user-info {
     margin-bottom: 15px;
     font-size: 16px;
     i {
