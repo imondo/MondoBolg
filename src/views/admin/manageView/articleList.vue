@@ -44,7 +44,7 @@
           </div>
         </li>
         <li v-show="nowIndex === 1">
-          正在建设
+          正在建设...
         </li>
       </ul>
     </div>
@@ -66,12 +66,31 @@
         display: inline-block;
         padding: 8px 0;
         margin-bottom: -1px;
+        &::before {
+          content: "";
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          display: inline-block;
+          width: 100%;
+          height: 2px;
+          background-color: #000;
+          visibility: hidden;
+          transform: scaleX(0);
+          transition: all 0.2s ease-in-out;
+        }
         &.active {
-          border-bottom: 2px solid #646464;
+          &::before {
+            visibility: visible;
+            transform: scaleX(1);
+          }
+          a {
+            color: #646464;
+          }
         }
         a {
           padding: 13px 20px;
-          font-size: 15px;
+          font-size: 14px;
           font-weight: 700;
           color: #969696;
           line-height: 25px;
@@ -115,6 +134,7 @@
               font-size: 18px;
               text-align: center;
               color: #00a0e8;
+              transition: .5s ease;
               .el-icon-upload2 {
                 position: absolute;
                 top: 45%;
@@ -183,8 +203,8 @@
     data() {
       return {
         tabsParam: [
-          {icon: 'android-folder', name: '我的文章'},
-          {icon: 'pricetag', name: '我的标签'}
+          {icon: 'android-folder', name: '文章'},
+          {icon: 'pricetag', name: '标签'}
         ],
         nowIndex: 0,
         articleList: [],

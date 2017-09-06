@@ -1,7 +1,7 @@
 <template>
   <div class="header-wrapper" :class="{headerAside:!conditionState.aside}">
     <div class="nav">
-      <router-link :to="{ path: '/index'}" replace class="log">iMondo</router-link>
+      <router-link :to="{ path: '/index'}" replace class="log">Mondo</router-link>
       <div class="nav-right">
         <div class="right-item">
           <el-dropdown class="item user" v-if="isLogin">
@@ -19,8 +19,7 @@
           </el-dropdown>
           <router-link to="/admin" class="item">写文章</router-link>
           <router-link to="/archive" class="item">归档</router-link>
-          <router-link to="/admin/aboutCreate" class="item" v-if="isLogin">关于</router-link>
-          <router-link to="/about" class="item" v-else>关于</router-link>
+          <router-link to="/about" class="item">关于</router-link>
           <div class="item search-pc">
             <span class="icon-contaner">
               <Icon type="android-search"></Icon>
@@ -39,8 +38,7 @@
           <router-link to="/admin/user" class="item" v-if="isLogin">我的主页</router-link>
           <router-link to="/admin" class="item">编辑文章</router-link>
           <router-link to="/archive" class="item">归档</router-link>
-          <router-link to="/admin/aboutCreate" class="item" v-if="isLogin">关于</router-link>
-          <router-link to="/about" class="item" v-else>关于</router-link>
+          <router-link to="/about" class="item">关于</router-link>
           <a href="javascript:;" v-if="isLogin" class="item" @click="logout">退出</a>
           <p class="item">
             <input type="text" class="item-mobile-input" placeholder="搜索..." v-model="searchParams" @keyup.enter="searchSubmit">
@@ -112,6 +110,7 @@
               border: none;
               opacity: 0;
               z-index: -1;
+              transition: .5s ease;
               &:hover {
                 z-index: 1;
               }
@@ -131,6 +130,7 @@
           padding-right: 25px;
           color: #686d76;
           font-size: 14px;
+          transition: .5s ease;
           &:hover {
             color: #0a90ff;
           }

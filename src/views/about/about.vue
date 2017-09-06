@@ -1,4 +1,4 @@
-<template xmlns="http://www.w3.org/1999/html">
+<template>
     <div>
       <div class="list-wrapper">
         <div class="user-info">
@@ -9,8 +9,9 @@
               </div>
             </div>
             <div class="vcard-names-container clearfix">
-              <h3>iMondo</h3>
+              <h3>Mondo</h3>
               <ul>
+                <li><router-link to="/admin/aboutCreate" v-if="isLogin"><Icon type="edit"></Icon></router-link></li>
                 <li><a href="https://github.com/one-pupil" target="_blank"><Icon type="social-github"></Icon></a></li>
                 <li><a href="mailto:imondo@qq.com" target="_blank"><Icon type="email"></Icon></a></li>
               </ul>
@@ -130,6 +131,11 @@
      return {
        htmlData: null
      };
+   },
+   computed: {
+     isLogin() {
+       return this.$store.getters.userInfo;
+     }
    },
    beforeRouteEnter(to, from, next) {
      next(vm => {

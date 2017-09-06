@@ -50,8 +50,7 @@
             background-color: #ffffff;
             border-radius: 3px;
             color: #5f5f5f;
-            transition-duration: .5s;
-            -webkit-transition-duration: .5s;
+            transition: .3s ease;
             -webkit-box-shadow: 0 2px 5px rgba(0,0,0,.07);
             box-shadow: 0 2px 5px rgba(0,0,0,.07);
             &:hover {

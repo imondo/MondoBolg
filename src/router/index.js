@@ -24,40 +24,44 @@ export const RouterMap = [
   {
     path: '/index',
     name: 'index',
+    meta: {title: '首页'},
     component: indexView
   },
   {
     path: '/login',
     name: 'login',
-    meta: {isLogin: true},
+    meta: {isLogin: true, title: '登录'},
     component: loginView
   },
   {
     path: '/archive',
     name: 'archive',
+    meta: {title: '归档'},
     component: archiveView
   },
   {
     path: '/about',
     name: 'about',
+    meta: {title: '关于'},
     component: aboutView
   },
   {
     path: '/article/:id',
     name: 'article',
+    meta: {title: '文章'},
     component: articleView
   },
   {
     path: '/classify/:class',
     name: 'classify',
     component: classifyView,
-    meta: {className: '分类'}
+    meta: {className: '分类', title: '分类'}
   },
   {
     path: '/search/:class',
     name: 'search',
     component: classifyView,
-    meta: {isSearch: true, className: '搜索'}
+    meta: {isSearch: true, className: '搜索', title: '搜索'}
   },
   {
     path: '/admin',
@@ -65,10 +69,10 @@ export const RouterMap = [
     redirect: '/admin/create',
     component: LayoutView,
     children: [
-      {path: 'user', component: articleListView},
-      {path: 'edit/:id', component: editView, name: 'edit', meta: {isEdit: true, isRoute: true}},
-      {path: 'create', component: editView, name: 'create', meta: {isRoute: true}},
-      {path: 'aboutCreate', component: editView, name: 'aboutCreate', meta: {isAbout: true, isRoute: true}}
+      {path: 'user', component: articleListView, meta: {title: '我的'}},
+      {path: 'edit/:id', component: editView, name: 'edit', meta: {isEdit: true, isRoute: true, title: '编辑'}},
+      {path: 'create', component: editView, name: 'create', meta: {isRoute: true, title: '发布'}},
+      {path: 'aboutCreate', component: editView, name: 'aboutCreate', meta: {isAbout: true, isRoute: true, title: '关于编辑'}}
     ]
   }
 ];

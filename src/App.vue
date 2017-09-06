@@ -28,6 +28,9 @@
         'conditionState'
       ])
     },
+    updated() {
+      document.title = this.$route.meta.title + ' - Mondo Blog';
+    },
     methods: {
       menu() {
         this.scroll = document.body.scrollTop;
