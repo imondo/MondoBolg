@@ -5,6 +5,7 @@
     </div>
     <div class="trigger-menu">
       <ul>
+        <span class="active-trigger" :style="{'transform':'translate3d(' + triggerLight + ', 0, 0)'}"></span>
         <li :class="{active:index==nowIndex}" v-for="(item, index) in tabsParam"  @click="toggleTabs(index)">
           <a href="javascript:;">
             <Icon :type="item.icon"></Icon> {{item.name}}
@@ -61,29 +62,15 @@
       border-bottom: 1px solid #f0f0f0;
       font-size: 0;
       list-style: none;
+      ul {
+        position: relative;
+      }
       li {
         position: relative;
         display: inline-block;
         padding: 8px 0;
         margin-bottom: -1px;
-        &::before {
-          content: "";
-          position: absolute;
-          bottom: 0;
-          left: 0;
-          display: inline-block;
-          width: 100%;
-          height: 2px;
-          background-color: #000;
-          visibility: hidden;
-          transform: scaleX(0);
-          transition: all 0.2s ease-in-out;
-        }
         &.active {
-          &::before {
-            visibility: visible;
-            transform: scaleX(1);
-          }
           a {
             color: #646464;
           }
@@ -95,6 +82,17 @@
           color: #969696;
           line-height: 25px;
         }
+      }
+      .active-trigger {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        display: inline-block;
+        width: 84.4px;
+        height: 2px;
+        background-color: #000;
+        transform: translate3d(100%, 0, 0);
+        transition: all 0.2s ease-in-out;
       }
     }
     .list-container {
@@ -216,7 +214,10 @@
     computed: {
       ...mapGetters([
         'userInfo'
-      ])
+      ]),
+      triggerLight() {
+        return 100 * this.nowIndex + '%';
+      }
     },
     beforeRouteEnter(to, from, next) {
       next(vm => {
