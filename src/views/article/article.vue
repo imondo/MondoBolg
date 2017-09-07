@@ -64,8 +64,8 @@
       }
       blockquote{
         padding: 10px 20px;
-        margin-bottom: 25px;
-        background-color: #f7f7f7;
+        margin: 25px 0;
+        background-color: #F3F3F3;
         border-left: 2px solid #009A61;
         word-break: break-word!important;
         word-break: break-all;
