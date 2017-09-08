@@ -134,6 +134,9 @@ const whiteList = ['/login', '/index', '/classify', '/about', '/article', '/arch
 router.beforeEach((to, from, next) => {
   NProgress.start();
   store.commit('SET_ASIDE', true);
+  if (to.meta.title) {
+    document.title = to.meta.title + ' - Mondo Blog';
+  }
   if (getToken()) {
     if (!store.getters.userInfo) {
       let userInfo = currentUser();
