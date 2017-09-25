@@ -99,6 +99,15 @@
         line-height: 1.2;
         color: #000000;
       }
+      strong {
+        padding-left: 3px;
+        padding-right: 3px;
+        color: #c7254e;
+        background: #f9f2f4;
+        font-weight: 100;
+        font-size: 14px;
+        font-family: Consolas,Menlo,Courier,monospace;
+      }
     }
   }
 </style>
