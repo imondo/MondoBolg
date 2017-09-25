@@ -52,6 +52,7 @@
     },
     methods: {
       goto(index) {
+          document.body.scrollTop = 0;
           this.current = index;
           let num = index - 1;
           this.$emit('getArticle', num);
