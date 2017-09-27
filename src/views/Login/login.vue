@@ -24,7 +24,7 @@
     position:absolute;
     left:50%;
     top:50%;
-    margin:-190px 0 0 -230px;
+    margin:-190px 0 0 -190px;
     padding: 10px;
     .login {
       border-radius: 5px;

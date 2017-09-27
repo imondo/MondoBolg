@@ -52,7 +52,7 @@
     },
     methods: {
       goto(index) {
-          document.body.scrollTop = 0;
+          window.scrollTo(0, 0); // 分页置顶
           this.current = index;
           let num = index - 1;
           this.$emit('getArticle', num);

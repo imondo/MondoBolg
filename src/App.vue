@@ -1,6 +1,6 @@
 <template>
-  <div id="app">
-    <v-header :class="{slideDown:!isScroll,slideUp:isScroll}" @click="aside"></v-header>
+  <div id="app" ref="app">
+    <v-header :class="{slideDown:!isScroll,slideUp:isScroll}" @scroll="menu" @click="aside"></v-header>
     <div class="main-wrapper clearfix" :class="{mainLogin: isLogin, mainAside: !conditionState.aside, mainEdit: isEdit, mainUser: isUser}">
       <transition :name="transitionName">
         <router-view></router-view>
@@ -28,9 +28,10 @@
         'conditionState'
       ])
     },
+
     methods: {
       menu() {
-        this.scroll = document.body.scrollTop;
+        this.scroll = window.scrollY;
         if (this.scroll > 20) {
           this.isScroll = true;
         } else {
@@ -42,7 +43,9 @@
       }
     },
     mounted() {
-      window.addEventListener('scroll', this.menu);
+      this.$nextTick(function () {
+        window.addEventListener('scroll', this.menu);
+      });
     },
     watch: {
       '$route' (to, from) {
