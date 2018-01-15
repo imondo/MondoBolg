@@ -1,10 +1,11 @@
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
-import APP_CONFIG from './config';
 import Vue from 'vue';
 import App from './App';
 import iView from 'iview';
 import 'iview/dist/styles/iview.css';
+import 'element-ui/lib/theme-default/index.css';
+import 'styles/font-awesome.less';
 import NProgress from 'nprogress';
 import 'nprogress/nprogress.css';
 import 'highlight.js/styles/tomorrow.css';
@@ -15,7 +16,7 @@ import * as filters from 'filters/index';
 import touch from 'vue-directive-touch';
 import { getToken } from 'utils/auth';
 import { currentUser } from 'api/login';
-import { retrieval } from 'utils/index';
+import { retrieval, requestAnimFrame } from 'utils/index';
 import {
   MessageBox,
   Message,
@@ -59,12 +60,11 @@ import {
   DropdownMenu,
   DropdownItem
 } from 'element-ui';
-import 'element-ui/lib/theme-default/index.css';
 import AV from 'leancloud-storage';
 
 AV.init({
-  appId: APP_CONFIG.id,
-  appKey: APP_CONFIG.key
+  appId: process.env.LEANCLOUD_APP_ID,
+  appKey: process.env.LEANCLOUD_APP_KEY
 });
 
 // Vue.config.productionTip = false
@@ -129,12 +129,12 @@ Vue.prototype.$prompt = MsgBox.prompt;
 
 Vue.prototype.$notify = Notification;
 Vue.prototype.$message = Message; // 需要设置原型
+Vue.prototype.$requestAnimFrame = requestAnimFrame;
 
-const whiteList = ['/login', '/index', '/classify', '/about', '/article', '/archive', '/search']; // 不重定向白名单
+const whiteList = ['/login', '/hello', '/index', '/classify', '/about', '/article', '/archive', '/search']; // 不重定向白名单
 router.beforeEach((to, from, next) => {
   NProgress.start();
   store.commit('SET_ASIDE', true);
-
   if (to.meta.title) {
     document.title = to.meta.title + ' - Mondo Blog';
   }

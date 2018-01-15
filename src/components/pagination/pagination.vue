@@ -1,41 +1,52 @@
-<template>
-  <div class="pagination-wrapper clearfix">
-    <ul v-show="pages > 1">
-      <li class="prev">
-        <a v-show="current != 1" @click="current-- && goto(current)">←</a>
-      </li>
-      <li v-for="index in pages">
-        <a @click="goto(index)" :class="{'active':current == index}">{{index}}</a>
-      </li>
-      <li class="next">
-        <a v-show="pages !=0 && pages != current" @click="current++ && goto(current)">→</a>
-      </li>
-    </ul>
-  </div>
-</template>
-
 <style lang="less" rel="stylesheet/less">
   .pagination-wrapper {
     width: 100%;
     font-size: 16px;
+    padding: 15px;
     ul {
       text-align: center;
       li {
         display: inline-block;
         a {
-          padding: 5px;
+          position: relative;
+          display: inline-block;
+          transition: background .3s;
+          padding: 0 10px;
+          margin: 0 5px;
+          height: 24px;
+          line-height: 24px;
+          font-size: 14px;
+          background-color: #ccc;
+          color: #fff;
           cursor: pointer;
+          transform: skewX(-20deg);
           &:hover {
-              background-color: #f7f7f7;
+            background-color: #1abc9c;
           }
           &.active {
-            color: #0a90ff;
+            background-color: #0b58a2;
           }
         }
       }
     }
   }
 </style>
+
+<template>
+  <div class="pagination-wrapper clearfix" ref="pagination">
+    <ul v-show="pages > 1">
+      <li class="prev">
+        <a v-show="current != 1" @click="current-- && goto(current)">« Prev</a>
+      </li>
+      <li v-for="index in pages">
+        <a @click="goto(index)" :class="{'active':current == index}">{{index}}</a>
+      </li>
+      <li class="next">
+        <a v-show="pages !=0 && pages != current" @click="current++ && goto(current)">Next »</a>
+      </li>
+    </ul>
+  </div>
+</template>
 
 <script type='text/ecmascript-6'>
   export default {
@@ -50,12 +61,26 @@
           return Math.ceil(this.count / this.limit);
       }
     },
+    mounted() {
+
+    },
     methods: {
       goto(index) {
-          window.scrollTo(0, 0); // 分页置顶
-          this.current = index;
-          let num = index - 1;
-          this.$emit('getArticle', num);
+        this.current = index;
+        let num = index - 1;
+        this.$emit('getArticle', num);
+        this.smoothUp();
+      },
+      smoothUp() {
+        let distance = document.documentElement.scrollTop || document.body.scrollTop;
+        let total = this.$refs.pagination.offsetTop;
+        let step = total / 50;
+        if (distance > 0) {
+          distance -= step;
+          document.body.scrollTop = distance;
+          document.documentElement.scrollTop = distance;
+          setTimeout(this.smoothUp(), 10);
+        }
       }
     }
   };

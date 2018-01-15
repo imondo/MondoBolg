@@ -1,75 +1,11 @@
 <template>
-  <div id="app" ref="app">
-    <v-header :class="{slideDown:!isScroll,slideUp:isScroll}" @scroll="menu" @click="aside"></v-header>
-    <div class="main-wrapper clearfix" :class="{mainLogin: isLogin, mainAside: !conditionState.aside, mainEdit: isEdit, mainUser: isUser}">
-      <transition :name="transitionName">
-        <router-view></router-view>
-      </transition>
-    </div>
+  <div id="app">
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
-  import header from 'views/header/header';
-  import { mapGetters } from 'vuex';
-  export default {
-    data() {
-      return {
-        isScroll: false,
-        scroll: '',
-        transitionName: '',
-        isEdit: false,
-        isUser: false,
-        isLogin: false
-      };
-    },
-    computed: {
-      ...mapGetters([
-        'conditionState'
-      ])
-    },
 
-    methods: {
-      menu() {
-        this.scroll = window.scrollY;
-        if (this.scroll > 20) {
-          this.isScroll = true;
-        } else {
-          this.isScroll = false;
-        }
-      },
-      aside() {
-        this.$store.commit('SET_ASIDE', true);
-      }
-    },
-    mounted() {
-      this.$nextTick(function () {
-        window.addEventListener('scroll', this.menu);
-      });
-    },
-    watch: {
-      '$route' (to, from) {
-        const toDepth = to.path.split('/').length;
-        const fromDepth = from.path.split('/').length;
-        this.transitionName = toDepth < fromDepth ? 'fade-in' : 'fade-out';
-        this.isEdit = this.$route.meta.isRoute;
-        this.isLogin = this.$route.meta.isLogin;
-        if (to.path.indexOf('/user') > -1) {
-          this.isUser = true;
-        } else {
-          this.isUser = false;
-        }
-      },
-      'scroll' (newVal, oldVal) {
-        if (newVal < oldVal) {
-          this.isScroll = false;
-        }
-      }
-    },
-    components: {
-      'v-header': header
-    }
-  };
 </script>
 
 <style  lang="less" rel="stylesheet/less">
@@ -82,6 +18,9 @@
       display: none;
     }
     &.mainLogin {
+      display: flex;
+      justify-content: center;
+      align-items: center;
       height: 100%;
     }
     &.mainEdit {

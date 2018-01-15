@@ -47,3 +47,7 @@ export function dataConversion(data) {
   }
   return obj;
 }
+
+export function requestAnimFrame(callback) {
+  window.requestAnimationFrame(callback) || window.webkitRequestAnimationFrame(callback) || window.mozRequestAnimationFrame(callback) || window.setTimeout(callback, 1000 / 60);
+}

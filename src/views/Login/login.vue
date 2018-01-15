@@ -19,13 +19,11 @@
 </template>
 <style lang="less" rel="stylesheet/less">
   .login-wrapper {
-    width:380px;
-    height:280px;
-    position:absolute;
-    left:50%;
-    top:50%;
-    margin:-190px 0 0 -190px;
-    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    height: 100%;
     .login {
       border-radius: 5px;
       -moz-border-radius: 5px;
