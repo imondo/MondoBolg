@@ -44,7 +44,7 @@
               top: 0;
               padding-right: 25px;
               z-index: 2;
-              font-size: 18px;
+              font-size: 14px;
               cursor: pointer;
             }
             .item-pc-input {
@@ -145,7 +145,7 @@
             .icon-contaner {
               float: left;
               padding: 0 12px 0 9px;
-              font-size: 18px;
+              font-size: 14px;
             }
             .item-mobile-input {
               border: none;
@@ -170,9 +170,12 @@
         <div class="right-item">
           <el-dropdown class="item user" v-if="isLogin">
             <span class="el-dropdown-link">
-               <Icon type="person"></Icon> {{userInfo.username}}
+               <i class="el-icon-fa-user"></i> {{userInfo.username}}
             </span>
             <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item>
+                <router-link to="/admin/create" class="item">写文章</router-link>
+              </el-dropdown-item>
               <el-dropdown-item>
                 <router-link to="/admin/user" class="item">我的主页</router-link>
               </el-dropdown-item>
@@ -181,12 +184,11 @@
               </el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
-          <!--<router-link to="/admin" class="item">写文章</router-link>-->
           <router-link to="/archive" class="item">归档</router-link>
           <router-link to="/about" class="item">关于</router-link>
           <div class="item search-pc">
             <span class="icon-contaner">
-              <Icon type="android-search"></Icon>
+              <i class="el-icon-fa-search"></i>
             </span>
             <span class="item-pc-input">
               <input type="text" placeholder="搜索..." v-model="searchParams" @keyup.enter="searchSubmit">
@@ -195,7 +197,7 @@
         </div>
         <div class="item-icon">
           <span class="icon-contaner" @click.stop="open">
-            <Icon :type="conditionState.aside?'android-menu':'android-close'" class="motion" :class="{close:!conditionState.aside}"></Icon>
+            <i class="motion" :class="{'el-icon-fa-reorder': conditionState.aside, 'el-icon-fa-close': !conditionState.aside, close:!conditionState.aside}"></i>
           </span>
         </div>
         <div class="icon-item" :class="{hidden: conditionState.aside}">
@@ -207,7 +209,7 @@
           <p class="item">
             <input type="text" class="item-mobile-input" placeholder="搜索..." v-model="searchParams" @keyup.enter="searchSubmit">
             <span class="icon-contaner">
-              <Icon type="android-search"></Icon>
+              <i class="el-icon-fa-search"></i>
             </span>
           </p>
         </div>
@@ -219,7 +221,7 @@
 <script type='text/ecmascript-6'>
   import { mapGetters } from 'vuex';
   export default {
-    name: 'header',
+    name: 'Mheader',
     data() {
       return {
         searchParams: ''

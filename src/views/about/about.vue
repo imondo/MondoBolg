@@ -11,9 +11,9 @@
             <div class="vcard-names-container clearfix">
               <h3>Mondo</h3>
               <ul>
-                <li><router-link to="/admin/aboutCreate" v-if="isLogin"><Icon type="edit"></Icon></router-link></li>
-                <li><a href="https://github.com/one-pupil" target="_blank"><Icon type="social-github"></Icon></a></li>
-                <li><a href="mailto:imondo@qq.com" target="_blank"><Icon type="email"></Icon></a></li>
+                <li><router-link to="/admin/aboutCreate" v-if="isLogin"><i class="el-icon-fa-edit"></i></router-link></li>
+                <li><a href="https://github.com/one-pupil" target="_blank"><i class="el-icon-fa-github"></i></a></li>
+                <li><a href="mailto:imondo@qq.com" target="_blank"><i class="el-icon-fa-send"></i></a></li>
               </ul>
             </div>
           </div>
@@ -56,6 +56,9 @@
             float: left;
             a {
               padding: 0 5px;
+            }
+            i {
+              font-size: 16px;
             }
           }
         }

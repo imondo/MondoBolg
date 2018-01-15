@@ -19,6 +19,10 @@ Vue.use(Router);
 
 export const RouterMap = [
   {
+    path: '/',
+    redirect: '/hello'
+  },
+  {
     path: '/hello',
     name: 'hello',
     meta: {title: 'hello'},
@@ -31,8 +35,7 @@ export const RouterMap = [
     component: loginView
   },
   {
-    path: '/',
-    redirect: '/hello',
+    path: '/index',
     component: layout,
     children: [
       {

@@ -56,9 +56,21 @@
     }
     .login {
       position: absolute;
-      top: 6px;
-      right: 6px;
+      top: 0;
+      right: 0;
+      width: 20px;
+      height: 20px;
+      line-height: 20px;
+      text-align: center;
       font-size: 14px;
+      a {
+        display: none;
+      }
+      &:hover {
+        a {
+          display: block;
+        }
+      }
     }
   }
 </style>
@@ -107,6 +119,9 @@
         this.$requestAnimFrame(loop);
       };
       loop();
+    },
+    destroyed() {
+      document.body.setAttribute('style', 'overflow: auto');
     }
   };
 </script>

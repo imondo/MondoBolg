@@ -1,14 +1,14 @@
 <template>
   <div class="user-wrapper">
     <div class="user-info">
-      <Icon type="android-walk"></Icon>
+      <i class="el-icon-fa-blind"></i>
     </div>
     <div class="trigger-menu">
       <ul>
         <span class="active-trigger" :style="{'transform':'translate3d(' + triggerLight + ', 0, 0)'}"></span>
         <li :class="{active:index==nowIndex}" v-for="(item, index) in tabsParam"  @click="toggleTabs(index)">
           <a href="javascript:;">
-            <Icon :type="item.icon"></Icon> {{item.name}}
+            <i :class="item.icon"></i> {{item.name}}
           </a>
         </li>
       </ul>
@@ -201,8 +201,8 @@
     data() {
       return {
         tabsParam: [
-          {icon: 'android-folder', name: '文章'},
-          {icon: 'pricetag', name: '标签'}
+          {icon: 'el-icon-fa-folder', name: '文章'},
+          {icon: 'el-icon-fa-tag', name: '标签'}
         ],
         nowIndex: 0,
         articleList: [],

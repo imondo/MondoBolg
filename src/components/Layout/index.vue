@@ -72,6 +72,16 @@
       },
       aside() {
         this.$store.commit('SET_ASIDE', true);
+      },
+      smoothUp() {
+        let distance = document.documentElement.scrollTop || document.body.scrollTop;
+        let step = 10;
+        if (distance > 0) {
+          distance -= step;
+          document.body.scrollTop = distance;
+          document.documentElement.scrollTop = distance;
+          setTimeout(this.smoothUp(), 10);
+        }
       }
     },
     mounted() {
@@ -79,6 +89,7 @@
     },
     watch: {
       $route(to, from) {
+        this.smoothUp();
         const toDepth = to.path.split('/').length;
         const fromDepth = from.path.split('/').length;
         this.transitionName = toDepth < fromDepth ? 'fade-in' : 'fade-out';

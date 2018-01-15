@@ -2,8 +2,6 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue';
 import App from './App';
-import iView from 'iview';
-import 'iview/dist/styles/iview.css';
 import 'element-ui/lib/theme-default/index.css';
 import 'styles/font-awesome.less';
 import NProgress from 'nprogress';
@@ -45,7 +43,6 @@ import {
   DatePicker,
   TimePicker,
   Slider,
-  Icon,
   Breadcrumb,
   BreadcrumbItem,
   Table,
@@ -69,7 +66,6 @@ AV.init({
 
 // Vue.config.productionTip = false
 
-Vue.use(iView);
 Vue.use(touch);
 
 Object.keys(filters).forEach(key => {
@@ -101,7 +97,6 @@ const components = [
   DatePicker,
   TimePicker,
   Slider,
-  Icon,
   Breadcrumb,
   BreadcrumbItem,
   Table,
