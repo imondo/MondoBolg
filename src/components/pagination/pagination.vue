@@ -72,15 +72,6 @@
         this.smoothUp();
       },
       smoothUp() {
-        // let distance = document.documentElement.scrollTop || document.body.scrollTop;
-        // let total = this.$refs.pagination.offsetTop;
-        // let step = total / 50;
-        // if (distance > 0) {
-        //   distance -= step;
-        //   document.body.scrollTop = distance;
-        //   document.documentElement.scrollTop = distance;
-        //   setTimeout(this.smoothUp(), 10);
-        // }
         let gotoTop = () => {
           let currentPosition = document.documentElement.scrollTop || document.body.scrollTop;
           currentPosition -= 800;
@@ -91,7 +82,7 @@
             clearInterval(timer);
             timer = null;
           }
-        }
+        };
         let timer = setInterval(gotoTop, 1);
       }
     }
