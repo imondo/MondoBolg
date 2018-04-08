@@ -11,6 +11,7 @@
     <section>
       <router-view></router-view>
     </section>
+    <smooth-up></smooth-up>
   </div>
 </template>
 

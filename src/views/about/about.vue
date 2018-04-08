@@ -51,7 +51,6 @@
         float: left;
         width: 100px;
         height: 100px;
-        margin-left: 15px;
         ul {
           li {
             float: left;
