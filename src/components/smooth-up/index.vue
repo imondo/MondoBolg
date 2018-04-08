@@ -16,7 +16,10 @@
       opacity: 1;
     }
     &:hover {
-      background-color: #ececec;
+      background-color: #0a90ff;
+      i {
+        color: #fff;
+      }
     }
     i {
       color: #414d5b;
@@ -28,7 +31,7 @@
   }
 </style>
 <template>
-  <div class="smooth-up" :class="{'show-up': showUp}" @click.stop="smoothUp">
+  <div class="smooth-up" :class="{'show-up': showUp}" @click.stop="smoothUpTop">
     <i class="el-icon-caret-top"></i>
   </div>
 </template>
@@ -43,11 +46,11 @@
     },
     computed: {
       showUp() {
-        return this.offsetTop > 300;
+        return this.offsetTop > 10;
       }
     },
     methods: {
-      smoothUp() {
+      smoothUpTop() {
         let gotoTop = () => {
           let currentPosition = document.documentElement.scrollTop || document.body.scrollTop;
           currentPosition -= 800;

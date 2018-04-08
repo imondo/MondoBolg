@@ -48,6 +48,7 @@
         <router-view class="child-view clearfix"></router-view>
       </transition>
     </div>
+    <smooth-up></smooth-up>
   </div>
 </template>
 
