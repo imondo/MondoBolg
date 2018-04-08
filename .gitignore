@@ -5,6 +5,7 @@ blog/
 dist/
 npm-debug.log
 yarn-error.log
+stats.json
 
 # Editor directories and files
 .idea
