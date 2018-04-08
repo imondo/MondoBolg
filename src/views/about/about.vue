@@ -5,13 +5,13 @@
           <div class="profile-header clearfix">
             <div class="avatar-wrapper">
               <div class="avatar">
-                <img src="/static/avatar.png" alt="">
+                <img src="./../../assets/avatar.png" alt="">
               </div>
             </div>
             <div class="vcard-names-container clearfix">
               <h3>Mondo</h3>
               <ul>
-                <li><router-link to="/admin/aboutCreate" v-if="isLogin"><i class="el-icon-fa-edit"></i></router-link></li>
+                <li><router-link :to="{name: 'aboutCreate', query: {hasAbout: hasAbout}}" v-if="isLogin"><i class="el-icon-fa-edit"></i></router-link></li>
                 <li><a href="https://github.com/one-pupil" target="_blank"><i class="el-icon-fa-github"></i></a></li>
                 <li><a href="mailto:imondo@qq.com" target="_blank"><i class="el-icon-fa-send"></i></a></li>
               </ul>
@@ -25,7 +25,7 @@
       </div>
     </div>
 </template>
-<style lang="less" rel="stylesheet/less">
+<style lang="less" rel="stylesheet/less" scope>
   .user-info {
     margin-bottom: 15px;
     font-size: 16px;
@@ -51,6 +51,7 @@
         float: left;
         width: 100px;
         height: 100px;
+        margin-left: 15px;
         ul {
           li {
             float: left;
@@ -126,15 +127,16 @@
   }
 </style>
 <script type='text/ecmascript-6'>
- import { getAbout } from 'api/about';
- import marked from 'utils/marked';
+ import { getAbout } from '~/api/about';
+ import updatedMixins from '~/mixins/updated-mixins';
  const CODE = 200;
+
  export default {
-   data() {
-     return {
-       htmlData: null
-     };
-   },
+   mixins: [updatedMixins],
+   data: () => ({
+     htmlData: null,
+     hasAbout: 0
+   }),
    computed: {
      isLogin() {
        return this.$store.getters.userInfo;
@@ -145,18 +147,10 @@
        vm.getData();
      });
    },
-   updated() {
-     var aTagArr = [].slice.apply(document.getElementsByTagName('a'));
-     aTagArr.forEach(function (e, i) {
-       e.href.indexOf('_blank') > -1 ? e.target = '_blank' : null;
-     });
-   },
    methods: {
      getData() {
        getAbout().then((response) => {
-         if (response.status === CODE) {
-           this.htmlData = marked(response.data.results[0].content);
-         }
+         response.data.id && (this.hasAbout = 1) && (this.htmlData = this.$marked(response.data.content));
        });
      }
    }

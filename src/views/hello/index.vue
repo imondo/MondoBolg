@@ -2,7 +2,7 @@
   <div class="hello-wrapper">
     <canvas id="canvas"></canvas>
     <div class="account">
-      <img src="static/avatar.png" alt=""/>
+      <img src="./../../assets/avatar.png" alt=""/>
       <h4>Mondo</h4>
       <p>生活已然尽兴，何必畏首畏尾。</p>
       <ul>

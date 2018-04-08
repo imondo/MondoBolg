@@ -4,10 +4,10 @@
     <div class="post-lists">
       <ul>
         <li class="item" v-for="item in classList">
-          <router-link class="item-body" :to="{name:'article', params:{id: item.objectId}}">
+          <router-link class="item-body" :to="{name:'article', params:{id: item.id}}">
             <p class="item-title">{{item.title}}</p>
             <p class="item-meta">
-              <span class="item-meta-desc">发布于 <time>{{item.createdAt | formatDate}}</time></span>
+              <span class="item-meta-desc">发布于 <time>{{item.updateAt | formatDate}}</time></span>
               <span class="item-meta-icon" :data-icon="item.classify"></span>
             </p>
           </router-link>
@@ -99,48 +99,37 @@
   }
 </style>
 <script type='text/ecmascript-6'>
-  import { getClassify } from 'api/article';
+  import { getClassify, getArtcileList } from '~/api/article';
   const CODE = 200;
   export default {
-    data() {
-      return {
-        classRoute: '',
-        classIfy: '',
-        classList: [],
-        isSearch: false
-      };
-    },
-    beforeRouteEnter(to, from, next) {
-      next(vm => {
-        vm.setClass();
-      });
+    data: () => ({
+      classRoute: '',
+      classIfy: '',
+      classList: [],
+      isSearch: false
+    }),
+    created() {
+      this.setClass();
     },
     methods: {
       setClass() {
-        let obj = {};
-        let params = {
-          where: obj
-        };
-        const vm = this;
-        vm.isSearch = this.$route.meta.isSearch;
-        vm.classIfy = this.$route.params.class;
-        vm.classRoute = this.$route.meta.className;
+        this.isSearch = this.$route.meta.isSearch;
+        this.classIfy = this.$route.params.class;
+        this.classRoute = this.$route.meta.className;
         if (this.$route.meta.isSearch) {
-          obj['title'] = {'$regex': vm.classIfy, '$options': 'i'};
+          getArtcileList({keyword: this.classIfy}).then(response => {
+            ({data: this.classList} = response);
+          })
         } else {
-          obj['classify'] = vm.classIfy;
+          getClassify({classify: this.classIfy}).then((response) => {
+            ({data: this.classList} = response);
+          });
         }
-        getClassify(params).then((response) => {
-          if (response.status === CODE) {
-            vm.classList = response.data.results;
-          }
-        });
       }
     },
     watch: {
-      '$route': function () {
-        const vm = this;
-        vm.setClass();
+      '$route'() {
+        this.setClass();
       }
     }
   };

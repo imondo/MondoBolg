@@ -11,7 +11,6 @@
 <style  lang="less" rel="stylesheet/less">
   .main-wrapper {
     position: relative;
-    padding: 90px 20px 0;
     max-width: 940px;
     margin: 0 auto;
     &.mainAside {
@@ -26,10 +25,6 @@
     &.mainEdit {
       max-width: 100%;
       padding-top: 73px;
-    }
-    &.mainUser {
-      height: auto;
-      overflow-y: auto;
     }
   }
   .slideDown {

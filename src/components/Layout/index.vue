@@ -1,7 +1,9 @@
 <style  lang="less" rel="stylesheet/less">
+  .layout-warpper, .main-wrapper {
+    height: 100%;
+  }
   .main-wrapper {
     position: relative;
-    padding: 90px 20px 0;
     max-width: 940px;
     margin: 0 auto;
     &.mainAside {
@@ -14,10 +16,6 @@
       max-width: 100%;
       padding-top: 73px;
     }
-    &.mainUser {
-      height: auto;
-      overflow-y: auto;
-    }
   }
   .slideDown {
     animation-name: slideDown;
@@ -25,13 +23,29 @@
   .slideUp {
     animation-name: slideUp;
   }
+  .child-view {
+    position: absolute;
+    left: 0;
+    top: 90px;
+    width: 100%;
+    padding: 20px;
+    transition: all .8s ease;
+  }
+  .slide-left-enter, .slide-right-leave-active {
+    opacity: 0;
+    transform: translate3d(0, 50px, 0);
+  }
+  .slide-left-leave-active, .slide-right-enter {
+    opacity: 0;
+    transform: translate3d(0, -50px, 0);
+  }
 </style>
 <template>
-  <div>
+  <div class="layout-warpper">
     <MHeader :class="{slideDown:!isScroll,slideUp:isScroll}" @click="aside"></MHeader>
-    <div class="main-wrapper clearfix" :class="{mainLogin: isLogin, mainAside: !conditionState.aside, mainEdit: isEdit, mainUser: isUser}">
+    <div class="main-wrapper" :class="{mainLogin: isLogin, mainAside: !conditionState.aside, mainEdit: isEdit, mainUser: isUser}">
       <transition :name="transitionName">
-        <router-view></router-view>
+        <router-view class="child-view clearfix"></router-view>
       </transition>
     </div>
   </div>
@@ -92,7 +106,7 @@
         this.smoothUp();
         const toDepth = to.path.split('/').length;
         const fromDepth = from.path.split('/').length;
-        this.transitionName = toDepth < fromDepth ? 'fade-in' : 'fade-out';
+        this.transitionName = toDepth < fromDepth ? 'slide-left' : 'slide-right';
         this.isEdit = this.$route.meta.isRoute;
         this.isLogin = this.$route.meta.isLogin;
         if (to.path.indexOf('/user') > -1) {

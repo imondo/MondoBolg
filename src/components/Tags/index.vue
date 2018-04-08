@@ -26,32 +26,33 @@
 </style>
 <script type='text/ecmascript-6'>
    export default {
-       name: 'Tag',
-       data() {
-           return {
-               dynamicTags: [],
-               inputVisible: false,
-               inputValue: ''
-           };
+       name: 'MoTag',
+       props: {
+           dynamicTags: {
+              type: Array,
+              default: []
+          }
        },
+       data: () => ({
+           inputVisible: false,
+           inputValue: ''
+       }),
        methods: {
            handleClose(tag) {
                this.dynamicTags.splice(this.dynamicTags.indexOf(tag), 1);
            },
-
            showInput() {
                this.inputVisible = true;
                this.$nextTick(_ => {
                    this.$refs.saveTagInput.$refs.input.focus();
                });
            },
-
            handleInputConfirm() {
                let inputValue = this.inputValue;
                if (inputValue) {
                    this.dynamicTags.push(inputValue);
                }
-               this.$store.commit('SET_TAGS', this.dynamicTags);
+               this.$emit('tags', this.dynamicTags);
                this.inputVisible = false;
                this.inputValue = '';
            }

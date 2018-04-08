@@ -1,112 +1,76 @@
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
+import 'babel-polyfill';
 import Vue from 'vue';
 import App from './App';
-import 'element-ui/lib/theme-default/index.css';
-import 'styles/font-awesome.less';
-import NProgress from 'nprogress';
+import 'element-ui/lib/theme-chalk/index.css';
+import './styles/font-awesome.less';
 import 'nprogress/nprogress.css';
 import 'highlight.js/styles/tomorrow.css';
-import 'styles/index.less';
-import router from 'router/index';
-import store from 'store/index';
-import * as filters from 'filters/index';
+import './styles/index.less';
+import router from './router/index';
+import store from './store/index';
+import * as filters from './filters/index';
 import touch from 'vue-directive-touch';
-import { getToken } from 'utils/auth';
-import { currentUser } from 'api/login';
-import { retrieval, requestAnimFrame } from 'utils/index';
+import VueLazyload from 'vue-lazyload';
+import { requestAnimFrame } from './utils/index';
 import {
   MessageBox,
   Message,
-  Notification,
-  Menu,
-  Submenu,
-  MenuItem,
-  MenuItemGroup,
   Row,
   Col,
   Form,
   FormItem,
   Input,
-  InputNumber,
-  Radio,
-  RadioGroup,
-  RadioButton,
-  Checkbox,
-  CheckboxGroup,
-  Switch,
   Select,
   Option,
-  OptionGroup,
   Button,
-  ButtonGroup,
-  DatePicker,
-  TimePicker,
-  Slider,
-  Breadcrumb,
-  BreadcrumbItem,
-  Table,
-  TableColumn,
-  Popover,
   Tag,
   Upload,
   Dialog,
-  Pagination,
-  Tooltip,
   Dropdown,
   DropdownMenu,
   DropdownItem
 } from 'element-ui';
+import MoComponents from './components/index';
 import AV from 'leancloud-storage';
+import marked from '~/utils/marked';
+import img404 from '~/assets/404.png';
+import loadImg from '~/assets/loading.gif';
 
 AV.init({
   appId: process.env.LEANCLOUD_APP_ID,
   appKey: process.env.LEANCLOUD_APP_KEY
 });
 
-// Vue.config.productionTip = false
+Vue.config.productionTip = false;
 
 Vue.use(touch);
+Vue.use(MoComponents);
+
+Vue.use(VueLazyload, {
+  preLoad: 1.3,
+  error: img404,
+  loading: loadImg,
+  attempt: 1
+});
 
 Object.keys(filters).forEach(key => {
   Vue.filter(key, filters[key]);
 });
 
 const components = [
-  Menu,
-  Submenu,
-  MenuItem,
-  MenuItemGroup,
   Row,
   Col,
   Form,
   FormItem,
   Input,
-  InputNumber,
-  Radio,
-  RadioGroup,
-  RadioButton,
-  Checkbox,
-  CheckboxGroup,
-  Switch,
+  Button,
   Select,
   Option,
-  OptionGroup,
-  Button,
-  ButtonGroup,
-  DatePicker,
-  TimePicker,
-  Slider,
-  Breadcrumb,
-  BreadcrumbItem,
-  Table,
-  TableColumn,
-  Popover,
   Tag,
   Upload,
   Dialog,
-  Pagination,
-  Tooltip,
   Dropdown,
   DropdownMenu,
   DropdownItem
@@ -116,47 +80,21 @@ components.forEach((item) => {
   Vue.component(item.name, item);
 });
 
-const MsgBox = MessageBox;
-Vue.prototype.$msgbox = MsgBox;
-Vue.prototype.$alert = MsgBox.alert;
-Vue.prototype.$confirm = MsgBox.confirm;
-Vue.prototype.$prompt = MsgBox.prompt;
-
-Vue.prototype.$notify = Notification;
 Vue.prototype.$message = Message; // 需要设置原型
+Vue.prototype.$confirm = MessageBox.confirm;
+Vue.prototype.$marked = marked;
 Vue.prototype.$requestAnimFrame = requestAnimFrame;
 
-const whiteList = ['/login', '/hello', '/index', '/classify', '/about', '/article', '/archive', '/search']; // 不重定向白名单
-router.beforeEach((to, from, next) => {
-  NProgress.start();
+router.beforeEach(({ meta }, from, next) => {
   store.commit('SET_ASIDE', true);
-  if (to.meta.title) {
-    document.title = to.meta.title + ' - Mondo Blog';
-  }
-  if (getToken()) {
-    if (!store.getters.userInfo) {
-      let userInfo = currentUser();
-      store.dispatch('GetUser', userInfo).then(() => {
-        next();
-      });
+  meta.title ? document.title = meta.title + ' - Mondo Blog' : '';
+  store.dispatch('GetUser').then(token => {
+    if (meta.auth) {
+      token ? next() : next({name: 'login'});
     } else {
       next();
     }
-  } else {
-    if (whiteList.indexOf(to.path) !== -1) {
-      next();
-    } else {
-      if (retrieval(to.path, '/classify') > -1 || retrieval(to.path, '/article') > -1 || retrieval(to.path, '/search') > -1) {
-        next();
-      } else {
-        next('/login');
-      }
-    }
-  }
-});
-
-router.afterEach(() => {
-  NProgress.done();
+  })
 });
 
 /* eslint-disable no-new */

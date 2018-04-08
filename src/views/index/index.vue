@@ -2,11 +2,10 @@
   <div class="home list-wrapper">
     <div class="post-lists">
       <div class="post-list-body clearfix">
-        <div class="post-list-item" v-for="article in articleList">
+        <div class="post-list-item" v-for="article in articleList" :key="article.id">
           <div class="post-list-item-container">
-            <div class="item-thumb" v-if="article.picture!=undefined" :style="{'background-image': 'url('+ article.picture.url +')'}" v-cloak></div>
-            <div class="item-thumb" v-else></div>
-            <router-link :to="{name:'article', params:{id: article.objectId}}">
+            <div class="item-thumb" v-lazy="{'background-image': 'url('+ article.image_url +')'}" v-cloak></div>
+            <router-link :to="{name:'article', params:{id: article.id}}">
               <div class="item-desc" v-html="markedContent(article.content)"></div>
               <div class="bg-deepgrey"></div>
             </router-link>
@@ -14,7 +13,7 @@
             <div class="item-slant"></div>
             <div class="item-label">
               <div class="item-title">
-                <router-link class="title" :to="{name:'article', params:{id: article.objectId}}">{{article.title}}</router-link>
+                <router-link class="title" :to="{name:'article', params:{id: article.id}}">{{article.title}}</router-link>
               </div>
               <div class="item-meta">
                 <div class="item-meta-icon" :data-icon="article.classify"></div>
@@ -27,7 +26,7 @@
         </div>
       </div>
       <div class="pagination-wrapper">
-        <v-pagination @getArticle="setArticle" :count="count" :limit="limit"></v-pagination>
+        <mo-pagination @getArticle="setArticle" :count="count" :limit="params.pageSize"></mo-pagination>
       </div>
     </div>
   </div>
@@ -55,15 +54,10 @@
         &:hover {
           box-shadow: 0px 0px 15px rgba(0,0,0,.5);
           .item-thumb{
-            -webkit-transform: scale(1.1);
-            -moz-transform: scale(1.1);
             transform: scale(1.1);
-            -webkit-filter: blur(3px);
-            -moz-filter: blur(3px);
             filter: blur(3px);
           }
           .item-desc {
-            -webkit-animation: fade-in .5s;
             animation: fade-in;
             animation-duration: .5s;
             opacity: 1;
@@ -86,7 +80,7 @@
           min-height: 250px;
           background-position: 50% 50%;
           background-size: cover;
-          background-image: url("../../assets/9.jpg");
+          background-image: url("./../../assets/default.png");
           transition: transform .5s ease,filter .5s ease;
         }
         .item-desc {
@@ -159,7 +153,7 @@
             height: 42px;
             border: 1px solid #eeeeee;
             border-radius: 50px;
-            background: url("../../assets/bg-ico.png") no-repeat;
+            background: url("./../../assets/bg-ico.png") no-repeat;
             background-size: 42px auto;
             background-position: 0 0;
             &[data-icon='生活'] {
@@ -191,36 +185,13 @@
 
 </style>
 <script type='text/ecmascript-6'>
-  import pagination from 'components/Pagination/pagination';
-  import { getArtcileList } from 'api/article';
-  import marked from 'marked';
-  const CODE = 200;
+  import getArticleMixins from '~/mixins/get-articles-mixins';
+
   export default {
-    data() {
-      return {
-        articleList: [],
-        count: 0,
-        limit: 9
-      };
-    },
-    beforeRouteEnter(to, from, next) {
-      next(vm => {
-        vm.getList(vm.limit, 0);
-      });
-    },
+    mixins: [getArticleMixins],
     methods: {
-      getList(limit, skip) {
-        const vm = this;
-        getArtcileList(limit, skip).then((response) => {
-          if (response.status === CODE) {
-            vm.articleList = response.data.results;
-            this.$store.commit('SET_LIST', vm.articleList);
-            vm.count = response.data.count;
-          }
-        });
-      },
       markedContent(value) {
-        value = marked(value);
+        value = this.$marked(value);
         if (value.indexOf('<hr>') > -1) {
           if (value.length > 40) {
             value = value.substr(4, 40) + '...';
@@ -232,13 +203,6 @@
         }
         return value;
       },
-      setArticle(index) {
-        let skip = index * this.limit;
-        this.getList(this.limit, skip);
-      }
-    },
-    components: {
-      'v-pagination': pagination
     }
   };
 </script>

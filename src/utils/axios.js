@@ -1,28 +1,56 @@
 import axios from 'axios';
-import { getToken } from './auth';
+import NProgress from 'nprogress';
+import { Message } from 'element-ui';
+import handleToken from './token';
 
-const vueAxios = axios.create({
-  baseURL: 'https://leancloud.cn/1.1/'
-  // timeout: 5000
-});
+axios.default.timeout = 20000; // 响应时间
+axios.defaults.withCredentials = true; // 传递cookie
+// axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'; // post请求头
 
-// 请求拦截器
-vueAxios.interceptors.request.use(config => {
-  config.headers['X-LC-Id'] = process.env.LEANCLOUD_APP_ID;
-  config.headers['X-LC-Key'] = process.env.LEANCLOUD_APP_KEY;
-  if (getToken()) {
-    config.headers['Content-Type'] = 'application/json';
-    config.headers['X-LC-Session'] = getToken();
-  }
-  return config;
+// 参数序列化
+axios.interceptors.request.use(config => {
+  NProgress.start();
+  return handleToken.getToken().then(token => {
+    config.headers.common['Authorization'] = 'Bearer ' + token;
+    return config;
+  })
 }, error => {
   return Promise.reject(error);
-});
+})
 
-// 响应拦截
-vueAxios.interceptors.response.use(response => response, error => {
+// 添加响应拦截器
+axios.interceptors.response.use(response => {
+  NProgress.done();
+  if (response.status !== 200) {
+    return Promise.reject(response);
+  }
+  return response.data;
+}, error => {
+  NProgress.done();
+  // 错误消息提示
+  let { status, data: { message }, config: { url } } = error.response;
+  switch (status) {
+    case 401:
+      message = '权限认证失败，请重新登录！';
+      break;
+    case 500:
+      message = '服务器连接出错！';
+      break;
+    default:
+      break;
+  }
+  Message({
+    type: 'error',
+    message,
+    onClose: () => {
+      if (status === 401) {
+        handleToken.removeToken().then(() => {
+          window.location.href = window.location.origin + '/login';
+        })
+      }
+    }
+  })
   return Promise.reject(error);
-});
+})
 
-export default vueAxios;
-
+export default axios;

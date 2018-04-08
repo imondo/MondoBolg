@@ -23,10 +23,12 @@
               </el-select>
             </el-form-item>
             <el-form-item>
-              <Tag></Tag>
+              <mo-tag @tags="getTags" :dynamicTags.sync="tags"></mo-tag>
             </el-form-item>
             <el-form-item>
-              <el-button type="primary" icon="picture" size="small" @click="insertPicture">图片</el-button>
+              <el-button type="primary" icon="picture" size="small">
+                <label for="upload">图片</label>
+              </el-button>
             </el-form-item>
             <el-form-item>
               <el-button type="primary" icon="check" size="small" @click="onSubmit()">发表</el-button>
@@ -38,12 +40,12 @@
         </div>
       </el-col>
     </el-row>
-    <uploadDialog :dialogVisible="isDialog" @upload="upload"></uploadDialog>
+    <input class="hidden" type="file" id="upload" name="file" @change="processFile($event)">
   </div>
 </template>
 <style lang="less" rel="stylesheet/less">
   .publish {
-    height: 100%;
+    padding: 20px;
     .el-row,.right {
       height: 100%;
     }
@@ -146,29 +148,23 @@
   }
 </style>
 <script type='text/ecmascript-6'>
-  import marked from 'marked';
-  import { getArtcile, addArticle, updateArtcile } from 'api/article';
-  import { conversionData } from 'utils/index';
-  import { uploadArticleImg } from 'api/upload';
-  import { handleAbout, getAbout } from 'api/about';
-  import Tag from 'components/Tags/index';
-  import uploadDialog from 'components/uploadDialog/index';
-  const CODE = 200;
+  import { getArtcile, addArticle, updateArtcile } from '~/api/article';
+  import { conversionData } from '~/utils/index';
+  import { uploadArticleImg } from '~/api/upload';
+  import { handleAbout, getAbout, addAbout } from '~/api/about';
+
   export default {
-    data() {
-      return {
-        formData: {
-          title: '',
-          classify: '',
-          tag: ''
-        },
-        input: '',
-        id: ''
-      };
-    },
+    data: () => ({
+      formData: {
+        title: '',
+        classify: '',
+      },
+      tags: [],
+      input: ''
+    }),
     computed: {
-      compiledMarkdown: function () {
-        return marked(this.input, {sanitize: true});
+      compiledMarkdown() {
+        return this.$marked(this.input, {sanitize: true});
       },
       isEdit() {
         return this.$route.meta.isEdit;
@@ -181,114 +177,95 @@
       }
     },
     created() {
-      let vm = this;
-      if (vm.isEdit) {
+      if (this.isEdit) {
         getArtcile(this.$route.params.id).then((res) => {
-          let data = conversionData(res).data;
-          vm.formData = {
-            title: data.title,
-            classify: data.classify,
-            tag: data.tag
-          };
-          vm.input = data.content;
-          vm.id = this.$route.params.id;
+          let {id, title, classify, tags, content} = res.data;
+          this.formData = {id, title, classify};
+          this.input = content;
+          this.tags = tags.split(',');
         });
       }
-      if (vm.isAbout) {
+      if (this.isAbout && this.$route.query.hasAbout == 1) {
         getAbout().then((res) => {
-          let data = conversionData(res).data.results;
-          vm.formData = {
-            title: data[0].title,
-            classify: data[0].classify
-          };
-          vm.input = data[0].content;
-          vm.id = data[0].objectId;
+          let {id, title, classify, tags, content} = res.data;
+          this.formData = {id, title, classify};
+          this.input = content;
+          this.tags = tags.split(',');
         });
       }
     },
     methods: {
-      update: function (e) {
+      update(e) {
         this.input = e.target.value;
       },
-      save: function (params) {
-        const vm = this;
+      save(params) {
         addArticle(params).then((res) => {
-          if (res.status === 201) {
-            vm.$message.success('发表成功!');
-            vm.$router.push('/index'); // 跳转列表页面面
-          }
+          this.$message.success('发表成功!');
+          this.$router.push({name: 'index'});
         });
       },
-      updates(params, id) {
-        const vm = this;
-        updateArtcile(params, id).then((res) => {
-          if (res.status === CODE) {
-            vm.$message.success('更新成功!');
-            vm.$router.push('/index'); // 跳转列表页面面
-          }
+      getTags(val) {
+        this.tags = val;
+      },
+      updates(params) {
+        updateArtcile(params).then((res) => {
+          this.$message.success('更新成功!');
+          this.$router.push({name: 'index'});
         });
       },
-      saveAbout(params, id) {
-        const vm = this;
-        handleAbout(params, id).then((res) => {
-          if (res.status === CODE) {
-            vm.$message.success('变更成功!');
-            vm.$router.push('/about'); // 跳转列表页面面
-          }
-        });
+      saveAbout(params) {
+        if (this.$route.query.hasAbout == 1) {
+          handleAbout(params).then((res) => {
+            this.$message.success('变更成功!');
+            this.$router.push({name: 'about'});
+          });
+        } else {
+          addAbout(params).then((res) => {
+            this.$message.success('保存成功!');
+            this.$router.push({name: 'about'});
+          });
+
+        }
       },
-      onSubmit: function () {
+      onSubmit() {
         if (this.title === '' || this.input === '') {
           this.$message({
             message: '请填写完整!',
             type: 'warning'
           });
         } else {
-          let vm = this;
           let params = {};
           params = this.formData;
           params.content = this.input;
-          if (!this.isAbout) {
-            params.tags = this.$store.getters.articleList.tags;
-          }
+          params.tags = this.tags.join();
           if (this.isEdit) {
-            this.updates(params, vm.id);
+            this.updates(params);
           } else {
             if (this.isAbout) {
-              this.saveAbout(params, vm.id);
+              this.saveAbout(params);
             } else {
               this.save(params);
             }
           }
         }
       },
-      insertPicture() {
-        this.$store.commit('SET_DIALOG', true);
-      },
-      upload(e) {
-        uploadArticleImg(e.target.files[0]).then((file) => {
-          this.$store.commit('SET_DIALOG', false);
-          this.$message.success('上传成功');
+      processFile(e) {
+        uploadArticleImg(e.target.files[0]).then(file => {
           this.input = this.input + '\r\n![Alt text](' + conversionData(file).url + ')';
         });
       }
     },
     watch: {
       '$route' (to, from) {
-        let vm = this;
         if (to.path.indexOf('/create') > -1) {
-          vm.formData = {
+          this.formData = {
             title: '',
             classify: '',
-            tag: ''
+            tags: []
           };
-          vm.input = '';
+          this.input = '';
         }
       }
-    },
-    components: {
-      'Tag': Tag,
-      'uploadDialog': uploadDialog
     }
   };
 </script>

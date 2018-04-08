@@ -1,16 +1,19 @@
-import AV from 'leancloud-storage';
+import axios from '~/utils/axios';
 
 // 登录
-export function login(user, psd) {
-  return AV.User.logIn(user, psd);
+export function login(data) {
+  return axios({
+    url: '/api/login',
+    method: 'POST',
+    data: data
+  })
 }
 
-export function loginOut() {
-  return AV.User.logOut();
-}
-
-// 是否为当前用户
-export function currentUser() {
-  const user = JSON.parse(JSON.stringify(AV.User.current()));
-  return user;
+// 注册
+export function register(data) {
+  return axios({
+    url: '/api/register',
+    method: 'POST',
+    data: data
+  })
 }

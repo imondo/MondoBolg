@@ -5,10 +5,10 @@
       <div class="post-lists">
         <ul>
           <li class="item" v-for="item in val">
-            <router-link class="item-body" :to="{name:'article', params:{id: item.objectId}}">
+            <router-link class="item-body" :to="{name:'article', params:{id: item.id}}">
               <p class="item-title">{{item.title}}</p>
               <p class="item-meta">
-                <span class="item-meta-desc">发布于 <time>{{item.createdAt | formatDate}}</time></span>
+                <span class="item-meta-desc">发布于 <time>{{item.updateAt | formatDate}}</time></span>
               </p>
             </router-link>
           </li>
@@ -73,19 +73,18 @@
   }
 </style>
 <script type='text/ecmascript-6'>
-  import { getClassify } from 'api/article';
-  import { dataConversion } from 'utils/index';
+  import { getArtcileList } from '~/api/article';
+  import { dataConversion } from '~/utils/index';
   const CODE = 200;
+
   export default {
-    data() {
-      return {
-        articleList: null
-      };
-    },
+    data: () => ({
+      articleList: null
+    }),
     beforeRouteEnter(to, from, next) {
       next(vm => {
-        getClassify().then((response) => {
-          if (response.status === CODE) {
+        getArtcileList().then((response) => {
+          if (response.code === CODE) {
             vm.list = response.data.results;
             vm.articleList = dataConversion(vm.list);
           }

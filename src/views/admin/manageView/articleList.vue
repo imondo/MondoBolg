@@ -20,28 +20,27 @@
             <li class="list hide-card" ref='article' v-for="(article, index) in articleList">
               <div class="thumb-container">
                 <a href="javascript:;" class="wrap-img">
-                  <img class="img-blur-done" :src="article.picture!=undefined ? article.picture.url:'/static/9.jpg'" alt="">
+                  <img class="img-blur-done" v-lazy="article.image_url" alt="">
                   <span class="img-upload">
-                  <input class="hidden" type="file" :id="index" name="file" :data="article.objectId" @change="processFile($event)">
+                  <input class="hidden" type="file" :id="index" name="file" :data-id="article.id" @change="processFile($event)">
                   <label class="upload-label" :for="index"></label>
                   <i class="el-icon-upload2"></i>
               </span>
                 </a>
                 <div class="content">
-                  <time>发布于 {{article.createdAt | formatDate}}</time>
+                  <time>发布于 {{article.updateAt | formatDate}}</time>
                   <h1>
-                    <router-link class="title" :to="{name:'article', params:{id: article.objectId}}">{{article.title}}</router-link>
+                    <router-link class="title" :to="{name:'edit', params:{id: article.id}}">{{article.title}}</router-link>
                   </h1>
                   <div class="meta">
-                    <router-link :to="{name:'edit', params:{id: article.objectId}}">编辑</router-link>
-                    <el-button size="small" :data="article.objectId" @click="deleteArticle($event)">删除</el-button>
+                    <span class="el-icon-fa-delete" :data="article.id" @click="deleteArticle($event)">删除</span>
                   </div>
                 </div>
               </div>
             </li>
           </ul>
           <div class="pagination-wrapper">
-            <v-pagination @getArticle="setArticle" :count="count" :limit="limit"></v-pagination>
+            <mo-pagination @getArticle="setArticle" :count="count" :limit="params.pageSize"></mo-pagination>
           </div>
         </li>
         <li v-show="nowIndex === 1">
@@ -114,9 +113,6 @@
             padding-bottom: 46%;
             overflow: hidden;
             transition: all .25s linear;
-            -moz-transition: all .25s linear;
-            -webkit-transition: all .25s linear;
-            -o-transition: all .25s linear;
             img {
               width: 100%;
             }
@@ -180,9 +176,11 @@
               right: 0;
               background-color: #f7f7f7;
               font-size: 12px;
-              button {
-                border: none;
-                margin-left: 0;
+              span {
+                cursor: pointer;
+                &:hover {
+                  color: red;
+                }
               }
             }
           }
@@ -192,25 +190,24 @@
   }
 </style>
 <script type='text/ecmascript-6'>
-  import pagination from 'components/Pagination/pagination';
+  import getArticleMixins from '~/mixins/get-articles-mixins';
   import { mapGetters } from 'vuex';
-  import { getArtcileList, delArticle } from 'api/article';
-  import { uploadImg } from 'api/upload';
-  const CODE = 200;
+  import { getArtcileList, delArticle, updateArtcile } from '~/api/article';
+  import { uploadArticleImg } from '~/api/upload';
+  import { conversionData } from '~/utils/index';
+  import errimg from '~/assets/default.png';
+
   export default {
-    data() {
-      return {
-        tabsParam: [
-          {icon: 'el-icon-fa-folder', name: '文章'},
-          {icon: 'el-icon-fa-tag', name: '标签'}
-        ],
-        nowIndex: 0,
-        articleList: [],
-        count: 0,
-        limit: 9,
-        isMobile: false
-      };
-    },
+    mixins: [getArticleMixins],
+    data: () => ({
+      tabsParam: [
+        {icon: 'el-icon-fa-folder', name: '文章'},
+        {icon: 'el-icon-fa-tag', name: '标签'}
+      ],
+      nowIndex: 0,
+      isMobile: false,
+      errimg: errimg
+    }),
     computed: {
       ...mapGetters([
         'userInfo'
@@ -219,48 +216,28 @@
         return 100 * this.nowIndex + '%';
       }
     },
-    beforeRouteEnter(to, from, next) {
-      next(vm => {
-        vm.getList(vm.limit, 0);
-      });
-    },
     methods: {
       toggleTabs(index) {
         this.nowIndex = index;
-      },
-      getList(limit, skip) {
-        const vm = this;
-        getArtcileList(limit, skip).then((response) => {
-          if (response.status === CODE) {
-            vm.articleList = response.data.results;
-            this.$store.commit('SET_LIST', vm.articleList);
-            vm.count = response.data.count;
-          }
-        });
       },
       deleteArticle(e) {
         let id = e.currentTarget.getAttribute('data');
         this.$confirm('确认删除吗？').then(() => {
           delArticle(id).then(() => {
             this.$message.success('删除成功');
-            this.getList(this.limit, 0);
+            this.getList();
           });
         });
       },
       processFile(e) {
-        let id = e.currentTarget.getAttribute('data');
-        uploadImg(e.target.files[0], id).then(() => {
-          this.$message.success('上传成功');
-          this.getList(this.limit, 0);
+        let id = e.currentTarget.getAttribute('data-id');
+        uploadArticleImg(e.target.files[0]).then(file => {
+          updateArtcile({imageUrl: conversionData(file).url ,id}).then(res => {
+            this.getList();
+            this.$message.success('上传成功');
+          })
         });
-      },
-      setArticle(index) {
-        let skip = index * this.limit;
-        this.getList(this.limit, skip);
       }
-    },
-    components: {
-      'v-pagination': pagination
     }
   };
 </script>

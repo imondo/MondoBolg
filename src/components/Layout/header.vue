@@ -8,14 +8,9 @@
     border-bottom: 1px solid #eeeeee;
     box-shadow: 0 1px 5px rgba(0, 0, 0, .1);
     background-color: #ffffff;
-    -webkit-animation-duration: .5s;
     animation-duration: .5s;
-    -webkit-animation-fill-mode: both;
     animation-fill-mode: both;
     transition: all .4s linear;
-    -moz-transition: all .4s linear;
-    -webkit-transition: all .4s linear;
-    -o-transition: all .4s linear;
     &.headerAside {
       position: absolute;
       height: 100%;
@@ -103,17 +98,10 @@
             }
             .motion {
               transition: all .4s linear;
-              -moz-transition: all .4s linear;
-              -webkit-transition: all .4s linear;
-              -o-transition: all .4s linear;
             }
             .close {
               color: red;
               transform:rotate(180deg);
-              -ms-transform:rotate(180deg); /* Internet Explorer */
-              -moz-transform:rotate(180deg); /* Firefox */
-              -webkit-transform:rotate(180deg); /* Safari 和 Chrome */
-              -o-transform:rotate(180deg); /* Opera */
             }
           }
         }
@@ -124,9 +112,6 @@
           top: 70px;
           width: 100%;
           transition: all .4s linear;
-          -moz-transition: all .4s linear;
-          -webkit-transition: all .4s linear;
-          -o-transition: all .4s linear;
           transform: scale3d(1,1,1);
           &.hidden {
             transform: scale3d(1,0,1);
@@ -165,7 +150,7 @@
 <template>
   <div class="header-wrapper" :class="{headerAside:!conditionState.aside}">
     <div class="nav">
-      <a href="/" class="log">Mondo</a>
+      <a href="/index" class="log">Mondo</a>
       <div class="nav-right">
         <div class="right-item">
           <el-dropdown class="item user" v-if="isLogin">
@@ -191,7 +176,7 @@
               <i class="el-icon-fa-search"></i>
             </span>
             <span class="item-pc-input">
-              <input type="text" placeholder="搜索..." v-model="searchParams" @keyup.enter="searchSubmit">
+              <input type="text" placeholder="请输入关键字" v-model="searchParams" @keyup.enter="searchSubmit">
             </span>
           </div>
         </div>
@@ -207,7 +192,7 @@
           <router-link to="/about" class="item">关于</router-link>
           <a href="javascript:;" v-if="isLogin" class="item" @click="logout">退出</a>
           <p class="item">
-            <input type="text" class="item-mobile-input" placeholder="搜索..." v-model="searchParams" @keyup.enter="searchSubmit">
+            <input type="text" class="item-mobile-input" placeholder="请输入关键字" v-model="searchParams" @keyup.enter="searchSubmit">
             <span class="icon-contaner">
               <i class="el-icon-fa-search"></i>
             </span>
@@ -249,9 +234,11 @@
         this.$confirm('确认退出？', '提示', {
           type: 'warning'
         }).then(() => {
-          this.$store.dispatch('LoginOut').then(() => {
-            this.$message.success('退出成功');
-            this.$router.push('/index');
+          this.$store.dispatch('LoginOut').then(res => {
+            if (res) {
+              this.$message.success('退出成功');
+              this.$router.push({name: 'index'});
+            }
           });
         });
       }
