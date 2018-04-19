@@ -150,7 +150,7 @@
 <template>
   <div class="header-wrapper" :class="{headerAside:!conditionState.aside}">
     <div class="nav">
-      <a href="/index" class="log">Mondo</a>
+      <router-link :to="{name: 'index'}" class="log">Mondo</router-link>
       <div class="nav-right">
         <div class="right-item">
           <el-dropdown class="item user" v-if="isLogin">

@@ -9,7 +9,7 @@
       <el-button type="text" @click="logout">退出</el-button>
     </nav>
     <section>
-      <router-view></router-view>
+      <router-view :key="$route.fullpath"></router-view>
     </section>
   </div>
 </template>

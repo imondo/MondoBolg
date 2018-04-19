@@ -6,7 +6,7 @@
           <h1>{{formData.title}}</h1>
         </div>
         <div class="show text">
-          <div v-html="compiledMarkdown" class="content"></div>
+          <div v-html="compiledMarkdown" class="content-article"></div>
         </div>
       </el-col>
       <el-col :xs="24" :sm="12" :md="12" :lg="12" class="right">
@@ -66,6 +66,7 @@
       float: right;
     }
     .left {
+      padding-right: 10px;
       input {
         border: none;
       }
@@ -75,65 +76,6 @@
     }
     .show {
       padding-left: 25px;
-      .content {
-        font-size: 14px;
-        hr {
-          display: block;
-          margin: 15px 0;
-          background-color: #e0e0e0;
-          border: 0;
-          height: 1px;
-        }
-        a {
-          color: #57a3f3;
-        }
-        blockquote{
-          padding: 10px 20px;
-          margin: 25px 0;
-          background-color: #F3F3F3;
-          border-left: 2px solid #009A61;
-          word-break: break-word!important;
-          word-break: break-all;
-          line-height: 30px;
-          p {
-            line-height: 1.7;
-            font-size: 16px;
-          }
-        }
-        img {
-          max-width: 100%;
-          height: auto;
-          vertical-align: middle;
-          border: 0;
-        }
-        pre {
-          margin: 30px 0;
-        }
-        code {
-          display: block;
-          width: 100%;
-          overflow-x: auto;
-          padding: 10px;
-          border-radius: 3px;
-          background-color: #F3F3F3;
-        }
-        h1, h2, h3, h4, h5 {
-          margin: 20px 0;
-          font-family: inherit;
-          font-weight: 500;
-          line-height: 1.2;
-          color: #000000;
-        }
-        strong {
-          padding-left: 3px;
-          padding-right: 3px;
-          color: #c7254e;
-          background: #f9f2f4;
-          font-weight: 100;
-          font-size: 14px;
-          font-family: Consolas,Menlo,Courier,monospace;
-        }
-      }
     }
     .text {
       font-family: "Microsoft Yahei";
@@ -256,7 +198,7 @@
       }
     },
     watch: {
-      '$route' (to, from) {
+      '$route' (to) {
         if (to.path.indexOf('/create') > -1) {
           this.formData = {
             title: '',

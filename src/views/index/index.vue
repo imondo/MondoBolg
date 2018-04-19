@@ -55,7 +55,7 @@
           box-shadow: 0px 0px 15px rgba(0,0,0,.5);
           .item-thumb{
             transform: scale(1.1);
-            filter: blur(3px);
+            /*filter: blur(3px);*/
           }
           .item-desc {
             animation: fade-in;
