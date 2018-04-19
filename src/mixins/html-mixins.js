@@ -20,10 +20,11 @@ export default {
       })
     },
     showImages(event) {
-      let $src = event.target.currentSrc
-      this.imgSrc = $src;
-      this.isShow = true;
-      console.log(this.isShow)
+      if (event.target.nodeName === 'IMG') {
+        let $src = event.target.currentSrc;
+        this.imgSrc = $src;
+        this.isShow = true;
+      }
     },
     closeImg(val) {
       this.isShow = val;
