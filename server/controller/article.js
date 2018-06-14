@@ -23,9 +23,11 @@ const getDetails = async (ctx, next) => {
   await next();
   let { id } = ctx.params;
   ctx.type = 'json';
-  await handleArticle.getDetails([id]).then(res => {
-    ctx.body = res[0];
-  })
+  let data = await handleArticle.getDetails([id]);
+  let { views } = data[0];
+  views++;
+  await handleArticle.pviews([views, id]);
+  ctx.body = Object.assign({}, data[0], { views });
 }
 
 const getClassify = async (ctx, next) => {

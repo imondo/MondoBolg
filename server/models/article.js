@@ -53,6 +53,12 @@ const deleteArticle = (value) => {
   return query(sql, value)
 }
 
+// 文章阅读量
+const pviews = (value) => {
+  let sql = 'update ARTICLES SET views=? where id=?';
+  return query(sql, value);
+}
+
 module.exports = {
   getCount,
   getArticle,
@@ -62,5 +68,6 @@ module.exports = {
   addArticle,
   updateArticle,
   deleteArticle,
-  uploadArticleImage
+  uploadArticleImage,
+  pviews
 };

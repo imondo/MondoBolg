@@ -19,7 +19,7 @@ module.exports = {
     hot: true,
     proxy: {
       '/api':{
-        target: 'https://imondo.cn',
+        target: 'http://localhost:3000',
         changeOrigin: true
       }
     }

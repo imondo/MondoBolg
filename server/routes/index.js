@@ -8,7 +8,7 @@ const router = new Router({
 });
 
 router.post('/login', loginCtrl.login);
-router.post('/register', loginCtrl.register);
+// router.post('/register', loginCtrl.register);
 
 router.get('/classes/article', acticleCtrl.getArticle);
 router.get('/classes/article/:id', acticleCtrl.getDetails);

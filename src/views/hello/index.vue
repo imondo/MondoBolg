@@ -37,7 +37,6 @@
         font-size: 12px;
         width: 55px;
         line-height: 25px;
-        border-radius: 15px;
         color: #fff;
         margin-top: 20px;
         box-shadow: 0 0 2px #135e94;

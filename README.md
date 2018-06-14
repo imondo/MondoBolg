@@ -73,7 +73,13 @@ vue-router                            // 路由
 ```
 
 ### 运行程序
+
+##### 前端启动
 ```
 npm install
 npm run dev
+```
+##### 后端启动
+```
+npm run dev:server
 ```

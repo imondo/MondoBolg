@@ -5,9 +5,11 @@
         <router-link class="title" :to="{name:'classify', params:{class: article.classify}}" v-cloak>{{article.title}}</router-link>
       </h1>
       <p class="info">
-        <span v-cloak>发布于 {{article.updateAt | formatDate}}</span>
-        <i>/</i>
-        <span v-cloak>{{article.classify}}</span>
+        <span v-cloak><i class="el-icon-fa-calendar-check-o"></i> {{article.updateAt | formatDate}}</span>
+        <i>|</i>
+        <span v-cloak><i class="el-icon-fa-tags"></i> {{article.classify}}</span>
+        <i>|</i>
+        <span><i class="el-icon-fa-eye"></i> 阅读次数 {{article.views}}</span>
       </p>
     </div>
     <div ref="articleHtml" class="content-article" v-html="articleHtmlData" @click="showImages($event)" v-cloak></div>
