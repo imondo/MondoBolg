@@ -1,7 +1,7 @@
 const query = require('./index');
 // 查询
 const getArticle = (value) => {
-  let sql = 'select * from ARTICLES order by updateAt desc ' + (value ? `limit ${value[0]}, ${value[1]}` : '');
+  let sql = 'select * from ARTICLES order by createAt desc ' + (value ? `limit ${value[0]}, ${value[1]}` : '');
   return query(sql);
 }
 
