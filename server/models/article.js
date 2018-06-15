@@ -19,7 +19,7 @@ const getDetails = (value) => {
 
 // 查询文章分类
 const getClassify = (value) => {
-  let sql = 'select * from ARTICLES where classify=? order by updateAt desc';
+  let sql = 'select * from ARTICLES where classify=? order by createAt desc';
   return query(sql, value);
 }
 
