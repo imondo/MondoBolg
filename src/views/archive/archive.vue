@@ -8,7 +8,7 @@
             <router-link class="item-body" :to="{name:'article', params:{id: item.id}}">
               <p class="item-title">{{item.title}}</p>
               <p class="item-meta">
-                <span class="item-meta-desc">发布于 <time>{{item.updateAt | formatDate}}</time></span>
+                <span class="item-meta-desc">发布于 <time>{{item.createAt | formatDate}}</time></span>
               </p>
             </router-link>
           </li>

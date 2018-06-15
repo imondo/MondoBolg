@@ -31,7 +31,7 @@ export function dataConversion(data) {
   let obj = {};
   if (data instanceof Array) {
     for (var i = 0; i < data.length; i++) {
-       let date = data[i].updateAt.substr(0, 7);
+       let date = data[i].createAt.substr(0, 7);
        arr.push(date);
     }
   }
@@ -39,7 +39,7 @@ export function dataConversion(data) {
   for (var j in arr) {
     obj[arr[j]] = [];
     for (var z = 0; z < data.length; z++) {
-      let date = data[z].updateAt.substr(0, 7);
+      let date = data[z].createAt.substr(0, 7);
       if (arr[j] === date) {
         obj[arr[j]].push(data[z]);
       }
