@@ -5,7 +5,7 @@
         <router-link class="title" :to="{name:'classify', params:{class: article.classify}}" v-cloak>{{article.title}}</router-link>
       </h1>
       <p class="info">
-        <span v-cloak><i class="el-icon-fa-calendar-check-o"></i> {{article.updateAt | formatDate}}</span>
+        <span v-cloak><i class="el-icon-fa-calendar-check-o"></i> {{article.createAt | formatDate}}</span>
         <i>|</i>
         <span v-cloak><i class="el-icon-fa-tags"></i> {{article.classify}}</span>
         <i>|</i>

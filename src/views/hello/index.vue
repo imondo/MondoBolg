@@ -5,9 +5,9 @@
       <img src="./../../assets/avatar.png" alt=""/>
       <h4>Mondo</h4>
       <p>生活已然尽兴，何必畏首畏尾。</p>
-      <ul>
-        <li class="tag"><router-link to="/index">Blog</router-link></li>
-        <li class="tag"><a href="https://github.com/one-pupil">Github</a></li>
+      <ul class="tag-li">
+        <li class="tag"><router-link to="/index"><i class="el-icon-fa-home"></i></router-link></li>
+        <li class="tag"><a href="https://github.com/one-pupil"><i class="el-icon-fa-github"></i></a></li>
       </ul>
     </div>
     <div class="login">
@@ -32,25 +32,16 @@
         border-radius: 40px;
         margin-top: 25vh;
       }
+      .tag-li {
+        width: 150px;
+        margin: 0 auto;
+      }
       .tag {
         display: inline-block;
-        font-size: 12px;
-        width: 55px;
-        line-height: 25px;
-        color: #fff;
-        margin-top: 20px;
-        box-shadow: 0 0 2px #135e94;
-        text-decoration: none;
-        transition: all .3s;
-        &:last-child {
-          margin-left: 16px;
-        }
-        &:hover {
-          background: rgba(19,94,148,.8);
-          a {
-            color: #fff;
-          }
-        }
+        float: left;
+        width: 50%;
+        font-size: 20px;
+        text-align: center;       
       }
     }
     .login {

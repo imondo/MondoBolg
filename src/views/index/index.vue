@@ -4,7 +4,7 @@
       <div class="post-list-body clearfix">
         <div class="post-list-item" v-for="article in articleList" :key="article.id">
           <div class="post-list-item-container">
-            <div class="item-thumb" v-lazy="{'background-image': 'url('+ article.image_url +')'}" v-cloak></div>
+            <div class="item-thumb" v-lazy:background-image="article.image_url || defaultImage" v-cloak></div>
             <router-link :to="{name:'article', params:{id: article.id}}">
               <div class="item-desc" v-html="markedContent(article.content)"></div>
               <div class="bg-deepgrey"></div>
@@ -186,9 +186,13 @@
 </style>
 <script type='text/ecmascript-6'>
   import getArticleMixins from '~/mixins/get-articles-mixins';
+  import defaultImage from './../../assets/default.png';
 
   export default {
     mixins: [getArticleMixins],
+    data: () => ({
+      defaultImage
+    }),
     methods: {
       markedContent(value) {
         value = this.$marked(value);
