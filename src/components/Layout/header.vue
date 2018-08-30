@@ -23,7 +23,8 @@
       .log {
         font-size: 22px;
         color: #0b58a2;
-        font-family: "Helvetica Neue Light", "HelveticaNeue-Light", "Helvetica Neue", Calibri, Helvetica, Arial;
+        font-family: 'Shadows Into Light', serif;
+        font-weight: bold;
         width: auto;
         max-width: 50%;
         margin-left: 25px;
@@ -150,7 +151,7 @@
 <template>
   <div class="header-wrapper" :class="{headerAside:!conditionState.aside}">
     <div class="nav">
-      <router-link :to="{name: 'index'}" class="log">Mondo</router-link>
+      <router-link :to="{path: '/'}" class="log">Mondo</router-link>
       <div class="nav-right">
         <div class="right-item">
           <el-dropdown class="item user" v-if="isLogin">

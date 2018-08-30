@@ -3,7 +3,7 @@
     <canvas id="canvas"></canvas>
     <div class="account">
       <img src="./../../assets/avatar.png" alt=""/>
-      <h4>Mondo</h4>
+      <h4 class="special">Mondo</h4>
       <p>生活已然尽兴，何必畏首畏尾。</p>
       <ul class="tag-li">
         <li class="tag"><router-link to="/index"><i class="el-icon-fa-home"></i></router-link></li>
@@ -27,6 +27,10 @@
       text-align: center;
       color: rgb(51, 51, 51);
       font-size: 16px;
+      .special {
+        font-family: 'Shadows Into Light', serif;
+        font-size: 26px;
+      }
       img {
         width: 80px;
         border-radius: 40px;
