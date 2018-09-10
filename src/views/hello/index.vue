@@ -8,6 +8,8 @@
       <ul class="tag-li">
         <li class="tag"><router-link to="/index"><i class="el-icon-fa-home"></i></router-link></li>
         <li class="tag"><a href="https://github.com/one-pupil"><i class="el-icon-fa-github"></i></a></li>
+        <li class="tag"><a href="https://imondo.cn/rtblog"><i class="el-icon-fa-arrow-circle-o-right"></i></a></li>
+        <li class="tag"><a href="https://imondo.cn/docs"><i class="el-icon-fa-meetup"></i></a></li>
       </ul>
     </div>
     <div class="login">
@@ -42,8 +44,7 @@
       }
       .tag {
         display: inline-block;
-        float: left;
-        width: 50%;
+        width: 22%;
         font-size: 20px;
         text-align: center;       
       }
