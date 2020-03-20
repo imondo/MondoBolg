@@ -7,7 +7,7 @@ const build = require('./build');
 module.exports = {
   devtool: false,
   output: {
-    publicPath: '/dist/',
+    publicPath: '/blog/dist/',
     filename: 'js/[name].[chunkhash].js',
     chunkFilename: 'js/[id].[chunkhash].js'
   },
@@ -31,20 +31,6 @@ module.exports = {
       {
         from: path.resolve(__dirname, '../static'),
         to: '../dist/static',
-        ignore: ['.*']
-      }
-    ]),
-    new CopyWebpackPlugin([
-      {
-        from: path.resolve(__dirname, '../server'),
-        to: '../server',
-        ignore: ['.*']
-      }
-    ]),
-    new CopyWebpackPlugin([
-      {
-        from: path.resolve(__dirname, '../pm2.json'),
-        to: '../pm2.json',
         ignore: ['.*']
       }
     ]),
